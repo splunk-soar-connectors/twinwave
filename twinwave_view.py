@@ -1,4 +1,7 @@
-def _tree_order_resources(current_node, ordered_resources=[], depth=0):
+def _tree_order_resources(current_node, ordered_resources=None, depth=0):
+    if not ordered_resources:
+        ordered_resources = []
+
     ordered_resources.append({"depth": depth, "node": current_node})
 
     for c in current_node["_children"]:

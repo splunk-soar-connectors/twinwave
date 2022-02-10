@@ -8,6 +8,7 @@ import requests
 DATE_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
 API_HOST = "https://api.twinwave.io"
 API_VERSION = "v1"
+REQUEST_TIMEOUT = 60
 
 
 class AuthenticationException(Exception):
@@ -20,7 +21,7 @@ class Twinwave:
         self._base_url = "https://app.twinwave.io/"
         self._api_key = "{}".format(config.get("api_token"))
         self._proxy = None
-        self._verify = config.get("verify")
+        self._verify = True
         self._since = int(config.get("since"))
 
     def get_header(self):
@@ -36,7 +37,7 @@ class Twinwave:
             params["source"] = source
         if state:
             params["state"] = state
-        resp = requests.get(url, params=params, headers=self.get_header(), verify=self._verify, proxies=self._proxy)
+        resp = requests.get(url, params=params, headers=self.get_header(), verify=self._verify, proxies=self._proxy, timeout=REQUEST_TIMEOUT)
         resp.raise_for_status()
         return resp.json()
 
@@ -44,7 +45,7 @@ class Twinwave:
         url = f"{self._host}/jobs/poll"
         time_now = datetime.now()
         if token:
-            resp = requests.get(url, params={"token": token}, headers=self.get_header())
+            resp = requests.get(url, params={"token": token}, headers=self.get_header(), timeout=REQUEST_TIMEOUT)
         else:
             since = self._since
             if not since:
@@ -54,7 +55,7 @@ class Twinwave:
                 prev_date = time_now - timedelta(hours=since)
                 epoch_convert_time = prev_date.timestamp()
             try:
-                resp = requests.get(url, params={"since": int(epoch_convert_time)}, headers=self.get_header())
+                resp = requests.get(url, params={"since": int(epoch_convert_time)}, headers=self.get_header(), timeout=REQUEST_TIMEOUT)
             except Exception:
                 time.sleep(10)
             payload = resp.json()
@@ -62,19 +63,19 @@ class Twinwave:
 
     def get_engines(self):
         url = f"{self._host}/engines"
-        resp = requests.get(url, headers=self.get_header(), verify=self._verify, proxies=self._proxy)
+        resp = requests.get(url, headers=self.get_header(), verify=self._verify, proxies=self._proxy, timeout=REQUEST_TIMEOUT)
         resp.raise_for_status()
         return resp.json()
 
     def get_job(self, job_id):
         url = f"{self._host}/jobs/{job_id}"
-        resp = requests.get(url, headers=self.get_header(), verify=self._verify, proxies=self._proxy)
+        resp = requests.get(url, headers=self.get_header(), verify=self._verify, proxies=self._proxy, timeout=REQUEST_TIMEOUT)
         resp.raise_for_status()
         return resp.json()
 
     def get_job_normalized_forensics(self, job_id):
         url = f"{self._host}/jobs/{job_id}/forensics"
-        resp = requests.get(url, headers=self.get_header(), verify=self._verify, proxies=self._proxy)
+        resp = requests.get(url, headers=self.get_header(), verify=self._verify, proxies=self._proxy, timeout=REQUEST_TIMEOUT)
         resp.raise_for_status()
         return resp.json()
 
@@ -86,7 +87,7 @@ class Twinwave:
         if profile:
             req["profile"] = profile
 
-        resp = requests.post(url, json=req, headers=self.get_header(), verify=self._verify, proxies=self._proxy)
+        resp = requests.post(url, json=req, headers=self.get_header(), verify=self._verify, proxies=self._proxy, timeout=REQUEST_TIMEOUT)
         resp.raise_for_status()
         return resp.json()
 
@@ -99,18 +100,19 @@ class Twinwave:
         payload["priority"] = priority
         payload["profile"] = profile
 
-        resp = requests.post(url, data=payload, files=file_dict, headers=self.get_header(), verify=self._verify, proxies=self._proxy)
+        resp = requests.post(url, data=payload, files=file_dict, headers=self.get_header(), verify=self._verify, proxies=self._proxy,
+            timeout=REQUEST_TIMEOUT)
         resp.raise_for_status()
         return resp.json()
 
     def download_job_pdf(self, job_id):
         url = f"{self._host}/jobs/{job_id}/pdfreport"
-        resp = requests.get(url, headers=self.get_header(), verify=self._verify, proxies=self._proxy, stream=True)
+        resp = requests.get(url, headers=self.get_header(), verify=self._verify, proxies=self._proxy, stream=True, timeout=REQUEST_TIMEOUT)
         resp.raise_for_status()
         return resp.content
 
     def download_artifact(self, artifact_path):
         url = f"{self._host}/jobs/artifacts/{artifact_path}"
-        resp = requests.get(url, headers=self.get_header(), verify=self._verify, proxies=self._proxy, stream=True)
+        resp = requests.get(url, headers=self.get_header(), verify=self._verify, proxies=self._proxy, stream=True, timeout=REQUEST_TIMEOUT)
         resp.raise_for_status()
         return resp.content
