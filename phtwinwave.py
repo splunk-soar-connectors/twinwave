@@ -8,11 +8,6 @@ import requests
 DATE_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
 API_HOST = "https://api.twinwave.io"
 API_VERSION = "v1"
-EXPIRE_SECONDS = 86400
-URL_REGEX = (
-    r"(?:(?:https?|ftp|hxxps?):\/\/|www\[?\.\]?|ftp\[?\.\]?)(?:[-\w\d]+\[?\.\]?)+[-\w\d]+(?::\d+)?"
-    r"(?:(?:\/|\?)[-\w\d+&@#\/%=~_$?!\-:,.\(\);]*[\w\d+&@#\/%=~_$\(\);])?"
-)
 
 
 class AuthenticationException(Exception):
@@ -27,14 +22,6 @@ class Twinwave:
         self._proxy = None
         self._verify = config.get("verify")
         self._since = int(config.get("since"))
-
-    def get_token(self):
-        auth_url = f"{self._host}/accesstoken"
-        resp = requests.get(auth_url, verify=self._verify, proxies=self._proxy)
-        if resp.ok:
-            return resp.json()
-        else:
-            raise AuthenticationException("Error getting access token, Please check the username and password")
 
     def get_header(self):
         return {"X-API-KEY": self._api_key}
@@ -85,25 +72,9 @@ class Twinwave:
         resp.raise_for_status()
         return resp.json()
 
-    def get_task_normalized_forensics(self, job_id, task_id):
-        url = f"{self._host}/jobs/{job_id}/tasks/{task_id}/forensics"
-        resp = requests.get(url, headers=self.get_header(), verify=self._verify, proxies=self._proxy)
-        resp.raise_for_status()
-        return resp.json()
-
     def get_job_normalized_forensics(self, job_id):
         url = f"{self._host}/jobs/{job_id}/forensics"
         resp = requests.get(url, headers=self.get_header(), verify=self._verify, proxies=self._proxy)
-        resp.raise_for_status()
-        return resp.json()
-
-    def get_task_raw_forensics(self, job_id, task_id):
-        url = f"{self._host}/jobs/{job_id}/tasks/{task_id}/rawforensics"
-        resp = requests.get(url, headers=self.get_header(), verify=self._verify, proxies=self._proxy)
-
-        # do not raise an exception for 404
-        if resp.status_code == 404:
-            return resp.json()
         resp.raise_for_status()
         return resp.json()
 
@@ -132,18 +103,6 @@ class Twinwave:
         resp.raise_for_status()
         return resp.json()
 
-    def resubmit_job(self, job_id):
-        url = f"{self._host}/jobs/{job_id}/reanalyze"
-        resp = requests.post(url, headers=self.get_header(), verify=self._verify, proxies=self._proxy)
-        resp.raise_for_status()
-        return resp.json()
-
-    def download_submitted_resources(self, job_id, sha256):
-        url = f"{self._host}/jobs/{job_id}/resources/{sha256}"
-        resp = requests.get(url, headers=self.get_header(), verify=self._verify, proxies=self._proxy, stream=True)
-        resp.raise_for_status()
-        return resp.content
-
     def download_job_pdf(self, job_id):
         url = f"{self._host}/jobs/{job_id}/pdfreport"
         resp = requests.get(url, headers=self.get_header(), verify=self._verify, proxies=self._proxy, stream=True)
@@ -155,33 +114,3 @@ class Twinwave:
         resp = requests.get(url, headers=self.get_header(), verify=self._verify, proxies=self._proxy, stream=True)
         resp.raise_for_status()
         return resp.content
-
-    def get_artifact_url(self, path):
-        url = f"{self._host}/jobs/artifacts/{path}"
-        resp = requests.get(url, headers=self.get_header(), verify=self._verify, proxies=self._proxy)
-        resp.raise_for_status()
-        return resp.content
-
-    def search_across_jobs_and_resources(self, term, field, count, shared_only, submitted_by, timeframe, page, type):
-        query_params = {}
-        if term:
-            query_params["term"] = term
-        if field:
-            query_params["field"] = field
-        if count:
-            query_params["count"] = count
-        if shared_only:
-            query_params["shared_only"] = shared_only
-        if submitted_by:
-            query_params["submitted_by"] = submitted_by
-        if timeframe:
-            query_params["timeframe"] = timeframe
-        if page:
-            query_params["page"] = page
-        if type:
-            query_params["type"] = type
-        url = f"{self._host}/jobs/search"
-        resp = requests.get(url, headers=self.get_header(), params=query_params, verify=self._verify, proxies=self._proxy)
-        resp.raise_for_status()
-
-        return resp.json()

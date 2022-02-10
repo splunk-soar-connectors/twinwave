@@ -10,6 +10,7 @@
   "python_version": "3",
   "product_version_regex": ".*",
   "publisher": "TwinWave",
+  "contributors": [{ "name": "Bryan Burns" }],
   "license": "Copyright (c) TwinWave, 2022",
   "app_version": "1.1.0",
   "utctime_updated": "2022-01-31T21:58:52.481735Z",
