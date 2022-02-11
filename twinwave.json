@@ -31,7 +31,7 @@
     },
     "since": {
       "data_type": "numeric",
-      "order": 3,
+      "order": 1,
       "description": "Start of time range stated in hours",
       "verbose": "If not specified, the default is past 3 days"
     }
@@ -1458,10 +1458,10 @@
       "versions": "EQ(*)"
     },
     {
-      "action": "submit file",
+      "action": "detonate file",
       "identifier": "twinwave_submit_file",
       "description": "Submit File for Scanning",
-      "type": "generic",
+      "type": "investigate",
       "read_only": false,
       "parameters": {
         "file": {
@@ -1534,10 +1534,10 @@
       "versions": "EQ(*)"
     },
     {
-      "action": "submit url",
+      "action": "detonate url",
       "identifier": "twinwave_submit_url",
       "description": "Submit New URL for Scanning",
-      "type": "generic",
+      "type": "investigate",
       "read_only": false,
       "parameters": {
         "url": {
@@ -1771,13 +1771,5 @@
       },
       "versions": "EQ(*)"
     }
-  ],
-  "pip_dependencies": {
-    "wheel": [
-      {
-        "module": "requests",
-        "input_file": "wheels/requests-2.27.1-py2.py3-none-any.whl"
-      }
-    ]
-  }
+  ]
 }
