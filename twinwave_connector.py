@@ -19,6 +19,19 @@ class RetVal(tuple):
         return tuple.__new__(RetVal, (val1, val2))
 
 
+def _make_resource_tree(resources):
+    root = [r for r in resources if not r["ParentID"]][0]
+
+    def _get_children(r, resources):
+        r["Children"] = [c for c in resources if c["ParentID"] == r["ID"]]
+        for c in r["Children"]:
+            _get_children(c, resources)
+
+    _get_children(root, resources)
+
+    return root
+
+
 class TwinWaveConnector(BaseConnector):
     def __init__(self):
 
@@ -241,7 +254,6 @@ class TwinWaveConnector(BaseConnector):
                 if phantom.is_fail(ret_val):
                     self.save_progress("Error saving container: {}".format(msg))
                     self.debug_print("Error saving container: {} -- CID: {}".format(msg, cid))
-            # self.debug_print("payload!!!!!!!!!!!!!!!!!!!!!", dump_object=submission_name)
         else:
             self.debug_print("payload_empty")
         state_dict["token"] = payload.get("NextToken")
@@ -286,6 +298,8 @@ class TwinWaveConnector(BaseConnector):
         job_summary = self._get_job_data(job_id, should_wait, timeout_in_minutes)
         if not job_summary:
             return action_result.set_status(phantom.APP_ERROR)
+
+        job_summary["ResourceTree"] = _make_resource_tree(job_summary["Resources"])
 
         action_result.add_data(job_summary)
         action_result.update_summary({"JobID": job_id, "Score": job_summary.get("DisplayScore"), "Verdict": job_summary.get("Verdict")})

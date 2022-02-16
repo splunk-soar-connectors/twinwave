@@ -1112,6 +1112,10 @@
           "data_type": "string"
         },
         {
+          "data_path": "action_result.data.*.ResourceTree",
+          "data_type": "string"
+        },
+        {
           "data_path": "action_result.data.*.StartedAt",
           "data_type": "string"
         },
