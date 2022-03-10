@@ -75,6 +75,8 @@ class TwinWaveConnector(BaseConnector):
 
     def _handle_test_connectivity(self, param):
 
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
+
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(dict(param)))
 
@@ -95,6 +97,8 @@ class TwinWaveConnector(BaseConnector):
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_get_job_normalized_forensics(self, params):
+
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
         action_result = self.add_action_result(ActionResult(dict(params)))
 
@@ -120,6 +124,8 @@ class TwinWaveConnector(BaseConnector):
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_submit_file(self, params):
+
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
         action_result = self.add_action_result(ActionResult(dict(params)))
 
@@ -147,6 +153,8 @@ class TwinWaveConnector(BaseConnector):
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_submit_url(self, params):
+
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
         action_result = self.add_action_result(ActionResult(dict(params)))
 
@@ -188,6 +196,8 @@ class TwinWaveConnector(BaseConnector):
 
     def _handle_list_recent_jobs(self, params):
 
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
+
         action_result = self.add_action_result(ActionResult(dict(params)))
 
         self.save_progress("Connecting to endpoint")
@@ -209,6 +219,9 @@ class TwinWaveConnector(BaseConnector):
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_poll_recent_jobs(self, params):
+
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
+
         action_result = self.add_action_result(ActionResult(dict(params)))
         state_dict = self.load_state()
         next_token = state_dict.get("token", None)
@@ -298,6 +311,8 @@ class TwinWaveConnector(BaseConnector):
 
     def _handle_get_job_summary(self, params):
 
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
+
         action_result = self.add_action_result(ActionResult(dict(params)))
 
         self.save_progress("Connecting to endpoint")
@@ -324,6 +339,9 @@ class TwinWaveConnector(BaseConnector):
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_get_job_pdf_report(self, params):
+
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
+
         action_result = self.add_action_result(ActionResult(dict(params)))
 
         self.save_progress("Connecting to endpoint")
@@ -350,6 +368,9 @@ class TwinWaveConnector(BaseConnector):
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_get_job_screenshots(self, params):
+
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
+
         action_result = self.add_action_result(ActionResult(dict(params)))
 
         self.save_progress("Connecting to endpoint")
