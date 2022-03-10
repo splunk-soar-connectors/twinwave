@@ -96,7 +96,7 @@ class TwinWaveConnector(BaseConnector):
         self.save_progress("Test Connectivity Passed.")
         return action_result.set_status(phantom.APP_SUCCESS)
 
-    def _handle_get_job_normalized_forensics(self, params):
+    def _handle_twinwave_get_job_normalized_forensics(self, params):
 
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
@@ -123,7 +123,7 @@ class TwinWaveConnector(BaseConnector):
         self.save_progress("Job Normal Forensics Retrieved")
         return action_result.set_status(phantom.APP_SUCCESS)
 
-    def _handle_submit_file(self, params):
+    def _handle_twinwave_submit_file(self, params):
 
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
@@ -152,7 +152,7 @@ class TwinWaveConnector(BaseConnector):
         self.save_progress("Submitted File")
         return action_result.set_status(phantom.APP_SUCCESS)
 
-    def _handle_submit_url(self, params):
+    def _handle_twinwave_submit_url(self, params):
 
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
@@ -194,7 +194,7 @@ class TwinWaveConnector(BaseConnector):
         self.save_progress("Submitted URL")
         return action_result.set_status(phantom.APP_SUCCESS)
 
-    def _handle_list_recent_jobs(self, params):
+    def _handle_twinwave_list_recent_jobs(self, params):
 
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
@@ -218,7 +218,7 @@ class TwinWaveConnector(BaseConnector):
         self.save_progress("Gathered Recent Jobs")
         return action_result.set_status(phantom.APP_SUCCESS)
 
-    def _handle_poll_recent_jobs(self, params):
+    def _handle_on_poll(self, params):
 
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
@@ -309,7 +309,7 @@ class TwinWaveConnector(BaseConnector):
                 self.save_progress("Unable to get job")
                 return None
 
-    def _handle_get_job_summary(self, params):
+    def _handle_twinwave_get_job_summary(self, params):
 
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
@@ -338,7 +338,7 @@ class TwinWaveConnector(BaseConnector):
 
         return action_result.set_status(phantom.APP_SUCCESS)
 
-    def _handle_get_job_pdf_report(self, params):
+    def _handle_twinwave_get_job_pdf(self, params):
 
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
@@ -367,7 +367,7 @@ class TwinWaveConnector(BaseConnector):
 
         return action_result.set_status(phantom.APP_SUCCESS)
 
-    def _handle_get_job_screenshots(self, params):
+    def _handle_twinwave_get_job_screenshots(self, params):
 
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
@@ -420,21 +420,21 @@ class TwinWaveConnector(BaseConnector):
         if action_id == "test_connectivity":
             ret_val = self._handle_test_connectivity(param)
         elif action_id == "twinwave_get_job_normalized_forensics":
-            ret_val = self._handle_get_job_normalized_forensics(param)
+            ret_val = self._handle_twinwave_get_job_normalized_forensics(param)
         elif action_id == "twinwave_get_job_summary":
-            ret_val = self._handle_get_job_summary(param)
+            ret_val = self._handle_twinwave_get_job_summary(param)
         elif action_id == "twinwave_list_recent_jobs":
-            ret_val = self._handle_list_recent_jobs(param)
+            ret_val = self._handle_twinwave_list_recent_jobs(param)
         elif action_id == "twinwave_submit_file":
-            ret_val = self._handle_submit_file(param)
+            ret_val = self._handle_twinwave_submit_file(param)
         elif action_id == "twinwave_submit_url":
-            ret_val = self._handle_submit_url(param)
+            ret_val = self._handle_twinwave_submit_url(param)
         elif action_id == "twinwave_get_job_pdf":
-            ret_val = self._handle_get_job_pdf_report(param)
+            ret_val = self._handle_twinwave_get_job_pdf(param)
         elif action_id == "twinwave_get_job_screenshots":
-            ret_val = self._handle_get_job_screenshots(param)
+            ret_val = self._handle_twinwave_get_job_screenshots(param)
         elif action_id == "on_poll":
-            ret_val = self._handle_poll_recent_jobs(param)
+            ret_val = self._handle_on_poll(param)
         return ret_val
 
     def finalize(self):
