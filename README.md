@@ -1,9 +1,12 @@
-# Splunk> Phantom
+# TwinWave App
 
-Welcome to the open-source repository for Splunk> Phantom's twinwave App.
+The TwinWave Splunk SOAR app can be used to connect with the TwinWave analysis platform.
 
-Please have a look at our [Contributing Guide](https://github.com/Splunk-SOAR-Apps/.github/blob/main/.github/CONTRIBUTING.md) if you are interested in contributing, raising issues, or learning more about open-source Phantom apps.
+The following actions are supported by the app:
 
-## Legal and License
-
-This Phantom App is licensed under the Apache 2.0 license. Please see our [Contributing Guide](https://github.com/Splunk-SOAR-Apps/.github/blob/main/.github/CONTRIBUTING.md#legal-notice) for further details.
+* Submitting a URL for analysis
+* Submitting a file for analysis
+* Fetching analysis (job) summary data
+* Fetching the forensics for a job
+* Downloading screenshots for a job and attaching them to the vault
+* Downloading an offline PDF report for a job and attaching it to the vault
