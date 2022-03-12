@@ -16,7 +16,7 @@
         }
     ],
     "license": "Copyright (c) TwinWave, 2022",
-    "app_version": "1.0.0",
+    "app_version": "1.0.1",
     "utctime_updated": "2022-01-31T21:58:52.481735Z",
     "package_name": "phantom_twinwave",
     "main_module": "twinwave_connector.py",
