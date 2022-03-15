@@ -1,0 +1,1847 @@
+{
+    "appid": "507379b9-c12c-4b1e-8124-8ebf0c3eee53",
+    "name": "TwinWave",
+    "description": "A threat analysis platform to reduce the friction of repetitive manual tasks typically associated with investigating threats",
+    "type": "investigative",
+    "product_vendor": "TwinWave",
+    "logo": "logo_twinwave.svg",
+    "logo_dark": "logo_twinwave_dark.svg",
+    "product_name": "TwinWave",
+    "python_version": "3",
+    "product_version_regex": ".*",
+    "publisher": "TwinWave",
+    "contributors": [
+        {
+            "name": "Bryan Burns"
+        }
+    ],
+    "license": "Copyright (c) TwinWave, 2022",
+    "app_version": "1.0.1",
+    "utctime_updated": "2022-01-31T21:58:52.481735Z",
+    "package_name": "phantom_twinwave",
+    "main_module": "twinwave_connector.py",
+    "min_phantom_version": "5.1.0",
+    "app_wizard_version": "1.0.0",
+    "configuration": {
+        "api_token": {
+            "description": "API token from the app",
+            "data_type": "password",
+            "required": true,
+            "order": 0
+        },
+        "since": {
+            "data_type": "numeric",
+            "order": 1,
+            "description": "Start of time range stated in hours",
+            "verbose": "If not specified, the default is past 3 days."
+        }
+    },
+    "actions": [
+        {
+            "action": "test connectivity",
+            "identifier": "test_connectivity",
+            "description": "Validate the asset configuration for connectivity using supplied configuration",
+            "type": "test",
+            "read_only": true,
+            "parameters": {},
+            "output": [],
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "on poll",
+            "description": "Callback action for the on_poll ingest functionality",
+            "type": "ingest",
+            "identifier": "on_poll",
+            "read_only": false,
+            "parameters": {
+                "container_id": {
+                    "data_type": "string",
+                    "order": 0,
+                    "description": "Container IDs to limit the ingestion to",
+                    "allow_list": true
+                },
+                "start_time": {
+                    "data_type": "numeric",
+                    "order": 1,
+                    "description": "Start of time range, in epoch time (milliseconds). If not specified, the default is past 10 days"
+                },
+                "end_time": {
+                    "data_type": "numeric",
+                    "order": 2,
+                    "description": "End of time range, in epoch time (milliseconds). If not specified, the default is now"
+                },
+                "container_count": {
+                    "data_type": "numeric",
+                    "order": 3,
+                    "description": "Maximum number of container records to query for"
+                },
+                "artifact_count": {
+                    "data_type": "numeric",
+                    "order": 4,
+                    "description": "Maximum number of artifact records to query for"
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.data",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.container_id",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.start_time",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.parameter.end_time",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.parameter.container_count",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.parameter.artifact_count",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "column_name": "Status",
+                    "column_order": 0,
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric"
+                }
+            ],
+            "versions": "EQ(*)",
+            "render": {
+                "type": "table"
+            }
+        },
+        {
+            "action": "get job forensics",
+            "identifier": "twinwave_get_job_normalized_forensics",
+            "description": "Get the consolidated forensics for a completed job",
+            "type": "generic",
+            "read_only": false,
+            "parameters": {
+                "job_id": {
+                    "description": "Job id of the forensics you want pulled",
+                    "data_type": "string",
+                    "required": true,
+                    "primary": true,
+                    "contains": [
+                        "twinwave job id"
+                    ],
+                    "order": 0
+                },
+                "wait": {
+                    "description": "Wait for job to finish before returning results",
+                    "data_type": "boolean",
+                    "default": true,
+                    "order": 1
+                },
+                "timeout": {
+                    "description": "Maximum time (in minutes) to wait for job to be complete",
+                    "data_type": "numeric",
+                    "default": 30,
+                    "order": 2
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.parameter.job_id",
+                    "data_type": "string",
+                    "contains": [
+                        "twinwave job id"
+                    ],
+                    "column_name": "Job ID",
+                    "column_order": 0
+                },
+                {
+                    "data_path": "action_result.parameter.wait",
+                    "data_type": "boolean"
+                },
+                {
+                    "data_path": "action_result.parameter.timeout",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "column_name": "Status",
+                    "column_order": 1,
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.TLS.*.Issuer",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.TLS.*.Source.IP",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.TLS.*.Source.Port",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.TLS.*.Details.JA3",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.TLS.*.Engines",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.TLS.*.Subject",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.TLS.*.Destination.IP",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.TLS.*.Destination.Port",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.TLS.*.Fingerprint",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.URL",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.Path",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.Method",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.Source.*.IP",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.Source.*.Port",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.Hostname",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.TotalSize",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.UserAgent",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.TotalSize",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.UserAgent",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.StatusCode",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.Destination.*.IP",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.Destination.*.Port",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.RequestSize",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.ResponseSize",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.RequestHeaders",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.ResponseHeaders",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.Logs",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.URLs.*.URL",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.URLs.*.Context",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.URLs.*.Engines",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.URLs.*.LinkText",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Files.*.MD5",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Files.*.Path",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Files.*.Size",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.Files.*.SHA256",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Files.*.Ssdeep",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Files.*.Context",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Files.*.Details.*.SHA1",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Files.*.Details.*.CRC32",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Files.*.Details.*.ClamAV",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Files.*.Details.*.SHA512",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Files.*.Details.*.GuestPath",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Files.*.FileName",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Files.*.FileType",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Files.*.NetworkSources",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Forms.*.Action",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Forms.*.Inputs.*.ID",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Forms.*.Inputs.*.Name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Forms.*.Inputs.*.Type",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Forms.*.Inputs.*.SourceCode",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Forms.*.Inputs.*.Placeholder",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Forms.*.method",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Forms.*.Engines",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Forms.*.PageURL",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Forms.*.SourceCode",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Hosts.*.IP",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Hosts.*.ASN",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.Hosts.*.City",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Hosts.*.Country",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Hosts.*.Engines",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Hosts.*.Houstname",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Hosts.*.Organization",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Score",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.Engine",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Images.*.Type",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Images.*.Resource",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Images.*.ImageHashes",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Images.*.ArtifactPath",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Images.*.DetectedObjects",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Details.engines",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.EndTime",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Mutexes.*.Name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Mutexes.*.Engines",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Network.*.Length",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.Network.*.Source.*.IP",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Network.*.Source.*.Port",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.Network.*.Service",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Network.*.Protocol",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Network.*.Destination.*.IP",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Network.*.Destination.*.Port",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.Strings.*.String",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Strings.*.Engines",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Verdict",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Version",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Processes.*.PID",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.Processes.*.Name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Processes.*.PPID",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.Processes.*.Path",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Processes.*.Details.*.Calls",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Processes.*.Details.Threads",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Processes.*.Details.Environment.*.retval",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.Processes.*.Details.Environment.*.OSMajor",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.Processes.*.Details.Environment.*.OSMinor",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.Processes.*.Details.Environment.*.TempPath",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Processes.*.Details.Environment.*.UserName",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Processes.*.Details.Environment.*.is_success",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Processes.*.Details.Environment.*.CommandLine",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Processes.*.Details.Environment.*.InstallDate",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.Processes.*.Details.Environment.*.MachineGUID",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Processes.*.Details.Environment.*.MainExeBase",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Processes.*.Details.Environment.*.MainExeSize",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Processes.*.Details.Environment.*.ProductName",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Processes.*.Details.Environment.*.WindowsPath",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Processes.*.Details.Environment.*.ComputerName",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Processes.*.Details.Environment.*.RegisteredOwner",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Processes.*.Details.Environment.*.SystemVolumeGUID",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Processes.*.Details.Environment.*.RegisteredOrganization",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Processes.*.Details.Environment.*.SystemVolumeSerialNumber",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Processes.*.Details.Arguements",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.StartTime",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.DNSServers",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Detections.*.Name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Detections.*.Details.Data.*.Hit",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Detections.*.Engines",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Detections.*.Severity",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.Detections.*.Description",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.DNSRequests.*.Query",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.DNSRequests.*.Server",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.DNSRequests.*.Engines",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.DNSRequests.*.QueryType",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.DNSRequests.*.Responses.*.Type",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.DNSRequests.*.Responses.*.Value",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Screenshots.*.URI",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Screenshots.*.Engines",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Screenshots.*.Resource",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Screenshots.*.ImageHashes",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Screenshots.*.ArtifactPath",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.DisplayScore",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.MitreAttacks.*.ID",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.MitreAttacks.*.Tactic",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.MitreAttacks.*.Engines",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.MitreAttacks.*.Technique",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.MitreAttacks.*.SubTechnique",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Registrykeys.*.Name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Registrykeys.*.Action",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Registrykeys.*.Engines",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.WhoisResults.*.Org",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.WhoisResults.*.City",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.WhoisResults.*.Name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.WhoisResults.*.State",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.WhoisResults.*.DNSSec",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.WhoisResults.*.Emails",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.WhoisResults.*.Address",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.WhoisResults.*.Country",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.WhoisResults.*.Engines",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.WhoisResults.*.ZipCode",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.WhoisResults.*.CreatedAt",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.WhoisResults.*.ExpiresAt",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.WhoisResults.*.Registrar",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.WhoisResults.*.UpdatedAt",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.WhoisResults.*.DomainName",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.WhoisResults.*.NameServers",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.WhoisResults.*.WhoisServer",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.PhishedBrands",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.MalwareConfigs",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.SavedArtifacts",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.MalwareFamilies",
+                    "data_type": "string"
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "get job summary",
+            "identifier": "twinwave_get_job_summary",
+            "description": "Get a job summary",
+            "type": "generic",
+            "read_only": false,
+            "parameters": {
+                "job_id": {
+                    "description": "Job id of the job summary you want to fetch",
+                    "data_type": "string",
+                    "required": true,
+                    "primary": true,
+                    "contains": [
+                        "twinwave job id"
+                    ],
+                    "order": 0
+                },
+                "wait": {
+                    "description": "Wait for job to finish before returning results",
+                    "data_type": "boolean",
+                    "default": true,
+                    "order": 1
+                },
+                "timeout": {
+                    "description": "Maximum time (in minutes) to wait for job to be complete",
+                    "data_type": "numeric",
+                    "default": 30,
+                    "order": 2
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.parameter.job_id",
+                    "data_type": "string",
+                    "contains": [
+                        "twinwave job id"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.wait",
+                    "data_type": "boolean"
+                },
+                {
+                    "data_path": "action_result.parameter.timeout",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.*.data.*.ID",
+                    "data_type": "string",
+                    "contains": [
+                        "twinwave job id"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Score",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.State",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.ID",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.State",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.Engine",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.Results.*.Score",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.Results.*.Details",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.Results.*.Forensics.*.Raw",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.Results.*.Forensics.*.Normalized",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.Priority",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.CreatedAt",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.StartedAt",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.StateText",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.StateText",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.UpdatedAt",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.ResourceID",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.APIKey.*.ID",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.APIKey.*.Label",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Labels.*.ID",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.Labels.*.Jobs",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Labels.*.Type",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Labels.*.Value",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Profile",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Sharing.*.SharedAt",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Sharing.*.SharedBy",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Sharing.*.ShareToken",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.APIKeyID",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Priority",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.TenantID",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Username",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.CreatedAt",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.ID",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.Name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.Type",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.JobID",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.Score",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.Location",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.ParentID",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.CreatedAt",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.DisplayScore",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.FileMetadata.*.MD5",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.FileMetadata.*.Size",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.FileMetadata.*.SHA256",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.FileMetadata.*.FileType",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.FileMetadata.*.MimeType",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.FileMetadata.*.IsEncrypted",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.InjectionMetadata.*.AddedBy",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.InjectionMetadata.*.AddedBecause",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.ResourceTree",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.StartedAt",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.UpdatedAt",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Parameters",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Submissions.*.MD5",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Submissions.*.Name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Submissions.*.SHA256",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.CompletedAt",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.DisplayScore",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.Verdict",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.ForensicsPath",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.ResourceCount",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.RequestedEngines",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.SubmissionSource",
+                    "data_type": "string"
+                }
+            ],
+            "render": {
+                "type": "custom",
+                "width": 6,
+                "height": 6,
+                "view": "twinwave_view.job_summary",
+                "title": "TwinWave Job Summary"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "list recent jobs",
+            "identifier": "twinwave_list_recent_jobs",
+            "description": "Get a list of recent jobs",
+            "type": "generic",
+            "read_only": false,
+            "parameters": {},
+            "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "column_name": "Status",
+                    "column_order": 0,
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.ID",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Score",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.State",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.ID",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.State",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.Engine",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.Results.*.Score",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.Results.*.Details",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.Results.*.Forensics.*.Raw",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.Results.*.Forensics.*.Normalized",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.Priority",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.CreatedAt",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.StartedAt",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.StateText",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.StateText",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.UpdatedAt",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.ResourceID",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.APIKey.*.ID",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.APIKey.*.Label",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Labels.*.ID",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.Labels.*.Jobs",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Labels.*.Type",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Labels.*.Value",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Profile",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Sharing.*.SharedAt",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Sharing.*.SharedBy",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Sharing.*.ShareToken",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.APIKeyID",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Priority",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.TenantID",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Username",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.CreatedAt",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.ID",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.Name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.Type",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.JobID",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.Score",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.Location",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.ParentID",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.CreatedAt",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.DisplayScore",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.FileMetadata.*.MD5",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.FileMetadata.*.Size",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.FileMetadata.*.SHA256",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.FileMetadata.*.FileType",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.FileMetadata.*.MimeType",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.FileMetadata.*.IsEncrypted",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.InjectionMetadata.*.AddedBy",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.InjectionMetadata.*.AddedBecause",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.StartedAt",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.UpdatedAt",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Parameters",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Submissions.*.MD5",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Submissions.*.Name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Submissions.*.SHA256",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.CompletedAt",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.DisplayScore",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.ForensicsPath",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.ResourceCount",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.RequestedEngines",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.SubmissionSource",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "detonate file",
+            "identifier": "twinwave_submit_file",
+            "description": "Submit File for Scanning",
+            "type": "investigate",
+            "read_only": false,
+            "parameters": {
+                "file": {
+                    "description": "File hash to submit",
+                    "data_type": "string",
+                    "required": true,
+                    "primary": true,
+                    "contains": [
+                        "vault id"
+                    ],
+                    "order": 0
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.parameter.file",
+                    "data_type": "string",
+                    "contains": [
+                        "vault id"
+                    ],
+                    "column_name": "File",
+                    "column_order": 0
+                },
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "column_name": "Status",
+                    "column_order": 1,
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.JobID",
+                    "data_type": "string",
+                    "contains": [
+                        "twinwave job id"
+                    ],
+                    "column_name": "Job ID",
+                    "column_order": 2
+                },
+                {
+                    "data_path": "action_result.data.*.QueueDepth",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.QuotaRemaining",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.AppURL",
+                    "data_type": "string",
+                    "contains": [
+                        "url"
+                    ],
+                    "column_name": "App URL",
+                    "column_order": 3
+                },
+                {
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "detonate url",
+            "identifier": "twinwave_submit_url",
+            "description": "Submit New URL for Scanning",
+            "type": "investigate",
+            "read_only": false,
+            "parameters": {
+                "url": {
+                    "description": "URL to submit",
+                    "data_type": "string",
+                    "contains": [
+                        "url"
+                    ],
+                    "required": true,
+                    "primary": true,
+                    "order": 0
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.parameter.url",
+                    "data_type": "string",
+                    "contains": [
+                        "url"
+                    ],
+                    "column_name": "URL",
+                    "column_order": 0
+                },
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "column_name": "Status",
+                    "column_order": 1,
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.JobID",
+                    "data_type": "string",
+                    "contains": [
+                        "twinwave job id"
+                    ],
+                    "column_name": "Job ID",
+                    "column_order": 2
+                },
+                {
+                    "data_path": "action_result.data.*.QueueDepth",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.QuotaRemaining",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.AppURL",
+                    "data_type": "string",
+                    "contains": [
+                        "url"
+                    ],
+                    "column_name": "App URL",
+                    "column_order": 3
+                },
+                {
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "get pdf report",
+            "identifier": "twinwave_get_job_pdf",
+            "description": "Get the PDF report for a completed job",
+            "type": "generic",
+            "read_only": false,
+            "parameters": {
+                "job_id": {
+                    "description": "Job id of the job summary you want to download the PDF for",
+                    "data_type": "string",
+                    "required": true,
+                    "primary": true,
+                    "contains": [
+                        "twinwave job id"
+                    ],
+                    "order": 0
+                },
+                "wait": {
+                    "description": "Wait for job to finish before returning results",
+                    "data_type": "boolean",
+                    "default": true,
+                    "order": 1
+                },
+                "timeout": {
+                    "description": "Maximum time (in minutes) to wait for job to be complete",
+                    "data_type": "numeric",
+                    "default": 30,
+                    "order": 2
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.parameter.job_id",
+                    "data_type": "string",
+                    "contains": [
+                        "twinwave job id"
+                    ],
+                    "column_name": "Job ID",
+                    "column_order": 0
+                },
+                {
+                    "data_path": "action_result.parameter.wait",
+                    "data_type": "boolean"
+                },
+                {
+                    "data_path": "action_result.parameter.timeout",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "column_name": "Status",
+                    "column_order": 1,
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric"
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "get job screenshots",
+            "identifier": "twinwave_get_job_screenshots",
+            "description": "Get screenshots for the specified job and store them in the vault",
+            "type": "generic",
+            "read_only": false,
+            "parameters": {
+                "job_id": {
+                    "description": "Job id of the job summary you want to download the PDF for",
+                    "data_type": "string",
+                    "required": true,
+                    "primary": true,
+                    "contains": [
+                        "twinwave job id"
+                    ],
+                    "order": 0
+                },
+                "wait": {
+                    "description": "Wait for job to finish before returning results",
+                    "data_type": "boolean",
+                    "default": true,
+                    "order": 1
+                },
+                "timeout": {
+                    "description": "Maximum time (in minutes) to wait for job to be complete",
+                    "data_type": "numeric",
+                    "default": 30,
+                    "order": 2
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.parameter.job_id",
+                    "data_type": "string",
+                    "contains": [
+                        "twinwave job id"
+                    ],
+                    "column_name": "Job ID",
+                    "column_order": 0
+                },
+                {
+                    "data_path": "action_result.parameter.wait",
+                    "data_type": "boolean"
+                },
+                {
+                    "data_path": "action_result.parameter.timeout",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "column_name": "Status",
+                    "column_order": 1,
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.screenshot_count",
+                    "data_type": "numeric",
+                    "column_name": "Screenshot Count",
+                    "column_order": 2
+                },
+                {
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric"
+                }
+            ],
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
+        }
+    ],
+    "pip_dependencies": {
+        "wheel": [
+            {
+                "module": "certifi",
+                "input_file": "wheels/shared/certifi-2021.10.8-py2.py3-none-any.whl"
+            },
+            {
+                "module": "charset_normalizer",
+                "input_file": "wheels/py3/charset_normalizer-2.0.12-py3-none-any.whl"
+            },
+            {
+                "module": "idna",
+                "input_file": "wheels/py3/idna-3.3-py3-none-any.whl"
+            },
+            {
+                "module": "requests",
+                "input_file": "wheels/shared/requests-2.27.1-py2.py3-none-any.whl"
+            },
+            {
+                "module": "urllib3",
+                "input_file": "wheels/shared/urllib3-1.26.8-py2.py3-none-any.whl"
+            }
+        ]
+    }
+}
