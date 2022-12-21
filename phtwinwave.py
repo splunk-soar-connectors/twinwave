@@ -1,6 +1,6 @@
 # File: phtwinwave.py
 #
-# Copyright (c) TwinWave, 2022
+# Copyright (c) 2016-2022 Splunk Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -34,10 +34,10 @@ class Twinwave:
     def __init__(self, config):
         self._host = f"{API_HOST}/{API_VERSION}"
         self._base_url = "https://app.twinwave.io/"
-        self._api_key = "{}".format(config.get("api_token"))
+        self._api_key = config["api_token"]
         self._proxy = None
         self._verify = True
-        self._since = int(config.get("since"))
+        self._since = config["since"]
 
     def get_header(self):
         return {"X-API-KEY": self._api_key}

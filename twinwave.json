@@ -9,18 +9,20 @@
     "product_name": "TwinWave",
     "python_version": "3",
     "product_version_regex": ".*",
-    "publisher": "TwinWave",
+    "publisher": "Splunk",
     "contributors": [
         {
             "name": "Bryan Burns"
         }
     ],
-    "license": "Copyright (c) TwinWave, 2022",
-    "app_version": "1.0.1",
+    "license": "Copyright (c) 2016-2022 Splunk Inc.",
+    "latest_tested_versions": "",
+    "fips_compliant": false,
+    "app_version": "1.1.0",
     "utctime_updated": "2022-01-31T21:58:52.481735Z",
     "package_name": "phantom_twinwave",
     "main_module": "twinwave_connector.py",
-    "min_phantom_version": "5.1.0",
+    "min_phantom_version": "5.3.5",
     "app_wizard_version": "1.0.0",
     "configuration": {
         "api_token": {
@@ -170,202 +172,358 @@
             },
             "output": [
                 {
-                    "data_path": "action_result.parameter.job_id",
-                    "data_type": "string",
-                    "contains": [
-                        "twinwave job id"
-                    ],
-                    "column_name": "Job ID",
-                    "column_order": 0
-                },
-                {
-                    "data_path": "action_result.parameter.wait",
-                    "data_type": "boolean"
-                },
-                {
-                    "data_path": "action_result.parameter.timeout",
-                    "data_type": "numeric"
-                },
-                {
                     "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "Status",
-                    "column_order": 1,
                     "example_values": [
                         "success",
                         "failed"
                     ]
                 },
                 {
-                    "data_path": "action_result.message",
-                    "data_type": "string"
+                    "data_path": "action_result.parameter.job_id",
+                    "data_type": "string",
+                    "contains": [
+                        "twinwave job id"
+                    ],
+                    "example_values": [
+                        "63572265-c5ae-402f-9fc1-6c90547482ee"
+                    ]
                 },
                 {
-                    "data_path": "summary.total_objects",
-                    "data_type": "numeric"
+                    "data_path": "action_result.parameter.timeout",
+                    "data_type": "numeric",
+                    "example_values": [
+                        30
+                    ]
                 },
                 {
-                    "data_path": "summary.total_objects_successful",
-                    "data_type": "numeric"
+                    "data_path": "action_result.parameter.wait",
+                    "data_type": "boolean",
+                    "example_values": [
+                        "true",
+                        "false"
+                    ]
                 },
                 {
                     "data_path": "action_result.data",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.summary",
+                    "data_path": "action_result.data.*.DNSRequests",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.TLS.*.Issuer",
+                    "data_path": "action_result.data.*.DNSRequests.*.Engines",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.TLS.*.Source.IP",
+                    "data_path": "action_result.data.*.DNSRequests.*.Query",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.TLS.*.Source.Port",
+                    "data_path": "action_result.data.*.DNSRequests.*.QueryType",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.DNSRequests.*.Responses.*.Type",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.DNSRequests.*.Responses.*.Value",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.DNSRequests.*.Server",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.DNSServers",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Details.engines",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Detections.*.Description",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Detections.*.Details.Data.*.Hit",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Detections.*.Details.Extracted Values.*.Name",
+                    "data_type": "string",
+                    "example_values": [
+                        "Copyright"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Detections.*.Details.Extracted Values.*.Value",
+                    "data_type": "string",
+                    "example_values": [
+                        "\u00a9 2021 Intuit"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Detections.*.Details.IsMetaRule",
+                    "data_type": "boolean",
+                    "example_values": [
+                        true,
+                        false
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Detections.*.Details.Match Source",
+                    "data_type": "string",
+                    "example_values": [
+                        "html_dom"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Detections.*.Details.Nested Detections.*.Description",
+                    "data_type": "string",
+                    "example_values": [
+                        "Image Match - Potential  website detected: Intuit"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Detections.*.Details.Nested Detections.*.Details.Extracted Values.*.Name",
+                    "data_type": "string",
+                    "example_values": [
+                        "HtmlPostForm"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Detections.*.Details.Nested Detections.*.Details.Extracted Values.*.Value",
+                    "data_type": "string",
+                    "example_values": [
+                        "<form id=\"ius-sign-in-mfa-password-collection-form\" action=\"mail.php\" method=\"post\" autocomplete=\"on\" novalidate=\"\">"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Detections.*.Details.Nested Detections.*.Details.Forms.*.Action",
+                    "data_type": "string",
+                    "example_values": [
+                        "mail.php"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Detections.*.Details.Nested Detections.*.Details.IsMetaRule",
+                    "data_type": "boolean",
+                    "example_values": [
+                        true,
+                        false
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Detections.*.Details.Nested Detections.*.Details.Match Confidence",
+                    "data_type": "string",
+                    "example_values": [
+                        "exact"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Detections.*.Details.Nested Detections.*.Details.Match Source",
+                    "data_type": "string",
+                    "example_values": [
+                        "html_dom"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Detections.*.Details.Nested Detections.*.Details.Nested Detections.*.Description",
+                    "data_type": "string",
+                    "example_values": [
+                        "Evidence of a Cloned Website (data-savepage-)"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Detections.*.Details.Nested Detections.*.Details.Nested Detections.*.Details.Extracted Values.*.Name",
+                    "data_type": "string",
+                    "example_values": [
+                        "String"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Detections.*.Details.Nested Detections.*.Details.Nested Detections.*.Details.Extracted Values.*.Value",
+                    "data_type": "string",
+                    "example_values": [
+                        "data-savepage-href=\"https://plugin.intuitcdn.net/@sbg/qbo-logo/v1/QBOlogo.png\""
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Detections.*.Details.Nested Detections.*.Details.Nested Detections.*.Details.Forms.*.Action",
+                    "data_type": "string",
+                    "example_values": [
+                        "mail.php"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Detections.*.Details.Nested Detections.*.Details.Nested Detections.*.Details.Match Source",
+                    "data_type": "string",
+                    "example_values": [
+                        "html_dom"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Detections.*.Details.Nested Detections.*.Details.Nested Detections.*.Details.URL",
+                    "data_type": "string",
+                    "example_values": [
+                        "https://boomerangdairysandbedding.com/wp-includes/fonts/QuickB2022/"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Detections.*.Details.Nested Detections.*.Details.Nested Detections.*.DisplaySeverity",
+                    "data_type": "numeric",
+                    "example_values": [
+                        25
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Detections.*.Details.Nested Detections.*.Details.Nested Detections.*.Engines",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Detections.*.Details.Nested Detections.*.Details.Nested Detections.*.Name",
+                    "data_type": "string",
+                    "example_values": [
+                        "11c9b64a-aea1-11eb-a69b-07db8cd523bb"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Detections.*.Details.Nested Detections.*.Details.Nested Detections.*.Severity",
+                    "data_type": "numeric",
+                    "example_values": [
+                        0.25
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Detections.*.Details.Nested Detections.*.Details.Nested Detections.*.Timestamp",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Detections.*.Details.Nested Detections.*.Details.Nested Detections.*.Verdict",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Detections.*.Details.Nested Detections.*.Details.Resource",
+                    "data_type": "string",
+                    "example_values": [
+                        "https://boomerangdairysandbedding.com/wp-includes/fonts/QuickB2022/"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Detections.*.Details.Nested Detections.*.Details.URL",
+                    "data_type": "string",
+                    "example_values": [
+                        "https://boomerangdairysandbedding.com/wp-includes/fonts/QuickB2022/"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Detections.*.Details.Nested Detections.*.DisplaySeverity",
+                    "data_type": "numeric",
+                    "example_values": [
+                        75
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Detections.*.Details.Nested Detections.*.Engines",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Detections.*.Details.Nested Detections.*.Name",
+                    "data_type": "string",
+                    "example_values": [
+                        "5ec4e953-e68f-4298-9b2c-739c3d729e16"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Detections.*.Details.Nested Detections.*.Severity",
+                    "data_type": "numeric",
+                    "example_values": [
+                        0.75
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Detections.*.Details.Nested Detections.*.Timestamp",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Detections.*.Details.Nested Detections.*.Verdict",
+                    "data_type": "string",
+                    "example_values": [
+                        "phish"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Detections.*.Details.OpenPhish",
+                    "data_type": "string",
+                    "example_values": [
+                        "high confidence"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Detections.*.Details.URL",
+                    "data_type": "string",
+                    "example_values": [
+                        "https://boomerangdairysandbedding.com/wp-includes/fonts/QuickB2022/"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Detections.*.DisplaySeverity",
+                    "data_type": "numeric",
+                    "example_values": [
+                        100
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Detections.*.Engines",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Detections.*.Name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Detections.*.ResourceTaskReferences.*.ResourceKey",
+                    "data_type": "string",
+                    "example_values": [
+                        "0"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Detections.*.ResourceTaskReferences.*.TaskKey",
+                    "data_type": "string",
+                    "example_values": [
+                        "1"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Detections.*.Severity",
                     "data_type": "numeric"
                 },
                 {
-                    "data_path": "action_result.data.*.TLS.*.Details.JA3",
-                    "data_type": "string"
+                    "data_path": "action_result.data.*.Detections.*.Verdict",
+                    "data_type": "string",
+                    "example_values": [
+                        "phish"
+                    ]
                 },
                 {
-                    "data_path": "action_result.data.*.TLS.*.Engines",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.TLS.*.Subject",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.TLS.*.Destination.IP",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.TLS.*.Destination.Port",
+                    "data_path": "action_result.data.*.DisplayScore",
                     "data_type": "numeric"
                 },
                 {
-                    "data_path": "action_result.data.*.TLS.*.Fingerprint",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "action_result.data.*.HTTP.*.URL",
+                    "data_path": "action_result.data.*.EndTime",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.HTTP.*.Path",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.HTTP.*.Method",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.HTTP.*.Source.*.IP",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.HTTP.*.Source.*.Port",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "action_result.data.*.HTTP.*.Hostname",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.HTTP.*.TotalSize",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.HTTP.*.UserAgent",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.HTTP.*.TotalSize",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "action_result.data.*.HTTP.*.UserAgent",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.HTTP.*.StatusCode",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "action_result.data.*.HTTP.*.Destination.*.IP",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.HTTP.*.Destination.*.Port",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "action_result.data.*.HTTP.*.RequestSize",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "action_result.data.*.HTTP.*.ResponseSize",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "action_result.data.*.HTTP.*.RequestHeaders",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.HTTP.*.ResponseHeaders",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "action_result.data.*.Logs",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.URLs.*.URL",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.URLs.*.Context",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.URLs.*.Engines",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.URLs.*.LinkText",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Files.*.MD5",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Files.*.Path",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Files.*.Size",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "action_result.data.*.Files.*.SHA256",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Files.*.Ssdeep",
+                    "data_path": "action_result.data.*.Engine",
                     "data_type": "string"
                 },
                 {
                     "data_path": "action_result.data.*.Files.*.Context",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Files.*.Details.*.SHA1",
                     "data_type": "string"
                 },
                 {
@@ -377,11 +535,15 @@
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.Files.*.Details.*.SHA512",
+                    "data_path": "action_result.data.*.Files.*.Details.*.GuestPath",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.Files.*.Details.*.GuestPath",
+                    "data_path": "action_result.data.*.Files.*.Details.*.SHA1",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Files.*.Details.*.SHA512",
                     "data_type": "string"
                 },
                 {
@@ -393,11 +555,56 @@
                     "data_type": "string"
                 },
                 {
+                    "data_path": "action_result.data.*.Files.*.MD5",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Files.*.MimeType",
+                    "data_type": "string",
+                    "example_values": [
+                        "text/plain"
+                    ]
+                },
+                {
                     "data_path": "action_result.data.*.Files.*.NetworkSources",
                     "data_type": "string"
                 },
                 {
+                    "data_path": "action_result.data.*.Files.*.Path",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Files.*.ResourceTaskReferences.*.ResourceKey",
+                    "data_type": "string",
+                    "example_values": [
+                        "1"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Files.*.ResourceTaskReferences.*.TaskKey",
+                    "data_type": "string",
+                    "example_values": [
+                        "3"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Files.*.SHA256",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Files.*.Size",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.Files.*.Ssdeep",
+                    "data_type": "string"
+                },
+                {
                     "data_path": "action_result.data.*.Forms.*.Action",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Forms.*.Engines",
                     "data_type": "string"
                 },
                 {
@@ -409,7 +616,7 @@
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.Forms.*.Inputs.*.Type",
+                    "data_path": "action_result.data.*.Forms.*.Inputs.*.Placeholder",
                     "data_type": "string"
                 },
                 {
@@ -417,7 +624,36 @@
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.Forms.*.Inputs.*.Placeholder",
+                    "data_path": "action_result.data.*.Forms.*.Inputs.*.Type",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Forms.*.Method",
+                    "data_type": "string",
+                    "example_values": [
+                        "post"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Forms.*.PageURL",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Forms.*.ResourceTaskReferences.*.ResourceKey",
+                    "data_type": "string",
+                    "example_values": [
+                        "0"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Forms.*.ResourceTaskReferences.*.TaskKey",
+                    "data_type": "string",
+                    "example_values": [
+                        "1"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Forms.*.SourceCode",
                     "data_type": "string"
                 },
                 {
@@ -425,19 +661,516 @@
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.Forms.*.Engines",
+                    "data_path": "action_result.data.*.HTTP.*.Destination.*.IP",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.Forms.*.PageURL",
+                    "data_path": "action_result.data.*.HTTP.*.Destination.*.Port",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.Destination.IP",
+                    "data_type": "string",
+                    "example_values": [
+                        "23.43.113.24"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.Destination.Port",
+                    "data_type": "numeric",
+                    "example_values": [
+                        443
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.Details._requestref",
+                    "data_type": "string",
+                    "example_values": [
+                        "b45353994bb050fd7d945cb88d4e44f9"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.Hostname",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.Forms.*.SourceCode",
+                    "data_path": "action_result.data.*.HTTP.*.Method",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.Hosts.*.IP",
+                    "data_path": "action_result.data.*.HTTP.*.Path",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.RequestHeaders",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.RequestHeaders.accept",
+                    "data_type": "string",
+                    "example_values": [
+                        "*/*"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.RequestHeaders.accept-language",
+                    "data_type": "string",
+                    "example_values": [
+                        "en-US"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.RequestHeaders.content-type",
+                    "data_type": "string",
+                    "example_values": [
+                        "application/x-www-form-urlencoded; charset=utf-8"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.RequestHeaders.cookie",
+                    "data_type": "string",
+                    "example_values": [
+                        "ius_session=14F7909BDE45458800589FB8E8AAA187; thx_guid=387999fd7aadac9dd987523e86cfb2db; tmx_guid=AAwIREOalk_Dxw1NYzywOdivOz8u_B9BJBj_A3Ep6pssv-wezsGa_GhNiCm3vqXfg6ysQGnDOrklg87hvlYF5UTJOWvODw; did=SHOPPER2_d7be422703b43635e7559bf3158acf11f3841558d961b1d562f5d23de36ecb5f21994e938d400f01cf633364be072d49"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.RequestHeaders.intuit-plugin-id",
+                    "data_type": "string",
+                    "example_values": [
+                        "qbo-frozen-satellites"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.RequestHeaders.origin",
+                    "data_type": "string",
+                    "example_values": [
+                        "https://c35.qbo.intuit.com"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.RequestHeaders.referer",
+                    "data_type": "string",
+                    "example_values": [
+                        "https://c35.qbo.intuit.com/"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.RequestHeaders.upgrade-insecure-requests",
+                    "data_type": "string",
+                    "example_values": [
+                        "1"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.RequestHeaders.user-agent",
+                    "data_type": "string",
+                    "example_values": [
+                        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.67 Safari/537.36 Edg/100.0.1185.39"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.RequestHeaders.x-requested-with",
+                    "data_type": "string",
+                    "example_values": [
+                        "XMLHttpRequest"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.RequestSize",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.ResourceTaskReferences.*.ResourceKey",
+                    "data_type": "string",
+                    "example_values": [
+                        "1"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.ResourceTaskReferences.*.TaskKey",
+                    "data_type": "string",
+                    "example_values": [
+                        "3"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.ResponseHeaders",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.ResponseHeaders.accept-ranges",
+                    "data_type": "string",
+                    "example_values": [
+                        "bytes"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.ResponseHeaders.access-control-allow-credentials",
+                    "data_type": "string",
+                    "example_values": [
+                        "false"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.ResponseHeaders.access-control-allow-methods",
+                    "data_type": "string",
+                    "example_values": [
+                        "GET"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.ResponseHeaders.access-control-allow-origin",
+                    "data_type": "string",
+                    "example_values": [
+                        "*"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.ResponseHeaders.access-control-expose-headers",
+                    "data_type": "string",
+                    "example_values": [
+                        "intuit_captcha_required,intuit_tid,intuit_flowid,intuit_requires_evaluation,intuit_ticket_exchanged,intuit_data"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.ResponseHeaders.access-control-max-age",
+                    "data_type": "string",
+                    "example_values": [
+                        "86400"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.ResponseHeaders.adrum_0",
+                    "data_type": "string",
+                    "example_values": [
+                        "g:ff51ace9-4caa-4d10-8b7c-e17a0b1f75ab"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.ResponseHeaders.adrum_1",
+                    "data_type": "string",
+                    "example_values": [
+                        "n:intuit-sbg-prod_87bcfab1-ad5a-4af1-95e0-7eed4f8a1800"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.ResponseHeaders.adrum_2",
+                    "data_type": "string",
+                    "example_values": [
+                        "i:257759"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.ResponseHeaders.adrum_3",
+                    "data_type": "string",
+                    "example_values": [
+                        "e:130"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.ResponseHeaders.cache-control",
+                    "data_type": "string",
+                    "example_values": [
+                        "public, max-age=31556926, immutable"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.ResponseHeaders.connection",
+                    "data_type": "string",
+                    "example_values": [
+                        "Keep-Alive"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.ResponseHeaders.content-encoding",
+                    "data_type": "string",
+                    "example_values": [
+                        "br"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.ResponseHeaders.content-language",
+                    "data_type": "string",
+                    "example_values": [
+                        "en-CA"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.ResponseHeaders.content-length",
+                    "data_type": "string",
+                    "example_values": [
+                        "47438"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.ResponseHeaders.content-security-policy",
+                    "data_type": "string",
+                    "example_values": [
+                        "frame-src 'self'; connect-src 'self'; default-src 'self'; script-src 'self' 'unsafe-inline' ; style-src 'unsafe-inline'"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.ResponseHeaders.content-type",
+                    "data_type": "string",
+                    "example_values": [
+                        "font/ttf"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.ResponseHeaders.date",
+                    "data_type": "string",
+                    "example_values": [
+                        "Wed, 23 Nov 2022 00:44:36 GMT"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.ResponseHeaders.etag",
+                    "data_type": "string",
+                    "example_values": [
+                        "\"e54addba509fc772b0c96c43fd912559\""
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.ResponseHeaders.expires",
+                    "data_type": "string",
+                    "example_values": [
+                        "Thu, 01 Jan 1970 00:00:00 GMT"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.ResponseHeaders.intuit_tid",
+                    "data_type": "string",
+                    "example_values": [
+                        "18375f05-0688-46f2-87bd-36b2a3056e4e"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.ResponseHeaders.keep-alive",
+                    "data_type": "string",
+                    "example_values": [
+                        "timeout=2, max=100"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.ResponseHeaders.last-modified",
+                    "data_type": "string",
+                    "example_values": [
+                        "Wed, 27 Apr 2022 18:34:52 GMT"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.ResponseHeaders.location",
+                    "data_type": "string",
+                    "example_values": [
+                        "https://data.xyz.com/b/ss/xee/1/H.20.3/s28372352737215?AQB="
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.ResponseHeaders.p3p",
+                    "data_type": "string",
+                    "example_values": [
+                        "CP=\"This is not a P3P policy\""
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.ResponseHeaders.pragma",
+                    "data_type": "string",
+                    "example_values": [
+                        "no-cache"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.ResponseHeaders.server",
+                    "data_type": "string",
+                    "example_values": [
+                        "DatabaseS3"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.ResponseHeaders.server-timing",
+                    "data_type": "string",
+                    "example_values": [
+                        "edge; dur=1, origin; dur=11, cdn-cache; desc=MISS"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.ResponseHeaders.strict-transport-security",
+                    "data_type": "string",
+                    "example_values": [
+                        "max-age=31536000"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.ResponseHeaders.timing-allow-origin",
+                    "data_type": "string",
+                    "example_values": [
+                        "*, *"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.ResponseHeaders.tmx-nonce",
+                    "data_type": "string",
+                    "example_values": [
+                        "8226d9097410a08d"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.ResponseHeaders.transfer-encoding",
+                    "data_type": "string",
+                    "example_values": [
+                        "chunked"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.ResponseHeaders.vary",
+                    "data_type": "string",
+                    "example_values": [
+                        "Accept-Encoding"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.ResponseHeaders.x-amz-cf-id",
+                    "data_type": "string",
+                    "example_values": [
+                        "jvi58qBYnPvaKsS7KpFGAFMbwP3Heql0ZInZO3w9x3EPse4zY0jHgA=="
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.ResponseHeaders.x-amz-cf-pop",
+                    "data_type": "string",
+                    "example_values": [
+                        "ORD51-C2"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.ResponseHeaders.x-amz-id-2",
+                    "data_type": "string",
+                    "example_values": [
+                        "yi/1AP8btDQrNCOeBMNwXKzVKDmFpEb/NKNKf+HyDKux8RfM4ZzlxA93LWImqYXQ4JZobPRlaFA="
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.ResponseHeaders.x-amz-meta-id",
+                    "data_type": "string",
+                    "example_values": [
+                        "identity-authn-core-ui"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.ResponseHeaders.x-amz-meta-module",
+                    "data_type": "string",
+                    "example_values": [
+                        "identity-authn-core-ui"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.ResponseHeaders.x-amz-meta-slug",
+                    "data_type": "string",
+                    "example_values": [
+                        "identity-authn-core-ui/1.388.1-apr.2734.b.7"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.ResponseHeaders.x-amz-meta-type",
+                    "data_type": "string",
+                    "example_values": [
+                        "plugin"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.ResponseHeaders.x-amz-meta-version",
+                    "data_type": "string",
+                    "example_values": [
+                        "1.388.1-apr.2734.b.7"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.ResponseHeaders.x-amz-request-id",
+                    "data_type": "string",
+                    "example_values": [
+                        "J12AVJJT0N7SCTV4"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.ResponseHeaders.x-amz-storage-class",
+                    "data_type": "string",
+                    "example_values": [
+                        "INTELLIGENT_TIERING"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.ResponseHeaders.x-content-type-options",
+                    "data_type": "string",
+                    "example_values": [
+                        "nosniff"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.ResponseHeaders.x-frame-options",
+                    "data_type": "string",
+                    "example_values": [
+                        "SAMEORIGIN"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.ResponseHeaders.x-origin-src",
+                    "data_type": "string",
+                    "example_values": [
+                        "uxf"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.ResponseHeaders.x-ua-compatible",
+                    "data_type": "string",
+                    "example_values": [
+                        "IE=Edge"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.ResponseHeaders.x-xss-protection",
+                    "data_type": "string",
+                    "example_values": [
+                        "1; mode=block"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.ResponseSize",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.Source.*.IP",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.Source.*.Port",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.Source.IP",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.Source.Port",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.StatusCode",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.TotalSize",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.URL",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.UserAgent",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.HTTP.*.UserAgent",
                     "data_type": "string"
                 },
                 {
@@ -457,7 +1190,18 @@
                     "data_type": "string"
                 },
                 {
+                    "data_path": "action_result.data.*.Hosts.*.Hostname",
+                    "data_type": "string",
+                    "example_values": [
+                        "c35.qbo.intuit.com"
+                    ]
+                },
+                {
                     "data_path": "action_result.data.*.Hosts.*.Houstname",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Hosts.*.IP",
                     "data_type": "string"
                 },
                 {
@@ -465,24 +1209,18 @@
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.Score",
-                    "data_type": "numeric"
+                    "data_path": "action_result.data.*.Hosts.*.ResourceTaskReferences.*.ResourceKey",
+                    "data_type": "string",
+                    "example_values": [
+                        "1"
+                    ]
                 },
                 {
-                    "data_path": "action_result.data.*.Engine",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Images.*.Type",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Images.*.Resource",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Images.*.ImageHashes",
-                    "data_type": "string"
+                    "data_path": "action_result.data.*.Hosts.*.ResourceTaskReferences.*.TaskKey",
+                    "data_type": "string",
+                    "example_values": [
+                        "3"
+                    ]
                 },
                 {
                     "data_path": "action_result.data.*.Images.*.ArtifactPath",
@@ -493,15 +1231,90 @@
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.Details.engines",
+                    "data_path": "action_result.data.*.Images.*.ImageHashes",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.EndTime",
+                    "data_path": "action_result.data.*.Images.*.ImageHashes.ImageAvgHash",
+                    "data_type": "string",
+                    "example_values": [
+                        "1818181818000000"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Images.*.ImageHashes.ImageDhash",
+                    "data_type": "string",
+                    "example_values": [
+                        "b2b2b2b2b24c3001"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Images.*.ImageHashes.ImagePhash",
+                    "data_type": "string",
+                    "example_values": [
+                        "88dd227722772277"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Images.*.Resource",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.Mutexes.*.Name",
+                    "data_path": "action_result.data.*.Images.*.ResourceTaskReferences.*.ResourceKey",
+                    "data_type": "string",
+                    "example_values": [
+                        "0"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Images.*.ResourceTaskReferences.*.TaskKey",
+                    "data_type": "string",
+                    "example_values": [
+                        "1"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Images.*.Type",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Logs",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.MalwareConfigs",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.MalwareFamilies",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.MitreAttacks",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.MitreAttacks.*.Engines",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.MitreAttacks.*.ID",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.MitreAttacks.*.SubTechnique",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.MitreAttacks.*.Tactic",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.MitreAttacks.*.Technique",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Mutexes",
                     "data_type": "string"
                 },
                 {
@@ -509,23 +1322,11 @@
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.Network.*.Length",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "action_result.data.*.Network.*.Source.*.IP",
+                    "data_path": "action_result.data.*.Mutexes.*.Name",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.Network.*.Source.*.Port",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "action_result.data.*.Network.*.Service",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Network.*.Protocol",
+                    "data_path": "action_result.data.*.Network",
                     "data_type": "string"
                 },
                 {
@@ -537,35 +1338,31 @@
                     "data_type": "numeric"
                 },
                 {
-                    "data_path": "action_result.data.*.Strings.*.String",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Strings.*.Engines",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Verdict",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Version",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Processes.*.PID",
+                    "data_path": "action_result.data.*.Network.*.Length",
                     "data_type": "numeric"
                 },
                 {
-                    "data_path": "action_result.data.*.Processes.*.Name",
+                    "data_path": "action_result.data.*.Network.*.Protocol",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.Processes.*.PPID",
+                    "data_path": "action_result.data.*.Network.*.Service",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Network.*.Source.*.IP",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Network.*.Source.*.Port",
                     "data_type": "numeric"
                 },
                 {
-                    "data_path": "action_result.data.*.Processes.*.Path",
+                    "data_path": "action_result.data.*.PhishedBrands",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Processes",
                     "data_type": "string"
                 },
                 {
@@ -573,35 +1370,15 @@
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.Processes.*.Details.Threads",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Processes.*.Details.Environment.*.retval",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "action_result.data.*.Processes.*.Details.Environment.*.OSMajor",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "action_result.data.*.Processes.*.Details.Environment.*.OSMinor",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "action_result.data.*.Processes.*.Details.Environment.*.TempPath",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Processes.*.Details.Environment.*.UserName",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Processes.*.Details.Environment.*.is_success",
+                    "data_path": "action_result.data.*.Processes.*.Details.Arguements",
                     "data_type": "string"
                 },
                 {
                     "data_path": "action_result.data.*.Processes.*.Details.Environment.*.CommandLine",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Processes.*.Details.Environment.*.ComputerName",
                     "data_type": "string"
                 },
                 {
@@ -621,15 +1398,19 @@
                     "data_type": "string"
                 },
                 {
+                    "data_path": "action_result.data.*.Processes.*.Details.Environment.*.OSMajor",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.Processes.*.Details.Environment.*.OSMinor",
+                    "data_type": "numeric"
+                },
+                {
                     "data_path": "action_result.data.*.Processes.*.Details.Environment.*.ProductName",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.Processes.*.Details.Environment.*.WindowsPath",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Processes.*.Details.Environment.*.ComputerName",
+                    "data_path": "action_result.data.*.Processes.*.Details.Environment.*.RegisteredOrganization",
                     "data_type": "string"
                 },
                 {
@@ -641,115 +1422,51 @@
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.Processes.*.Details.Environment.*.RegisteredOrganization",
-                    "data_type": "string"
-                },
-                {
                     "data_path": "action_result.data.*.Processes.*.Details.Environment.*.SystemVolumeSerialNumber",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.Processes.*.Details.Arguements",
+                    "data_path": "action_result.data.*.Processes.*.Details.Environment.*.TempPath",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.StartTime",
+                    "data_path": "action_result.data.*.Processes.*.Details.Environment.*.UserName",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.DNSServers",
+                    "data_path": "action_result.data.*.Processes.*.Details.Environment.*.WindowsPath",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.Detections.*.Name",
+                    "data_path": "action_result.data.*.Processes.*.Details.Environment.*.is_success",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.Detections.*.Details.Data.*.Hit",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Detections.*.Engines",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Detections.*.Severity",
+                    "data_path": "action_result.data.*.Processes.*.Details.Environment.*.retval",
                     "data_type": "numeric"
                 },
                 {
-                    "data_path": "action_result.data.*.Detections.*.Description",
+                    "data_path": "action_result.data.*.Processes.*.Details.Threads",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.DNSRequests.*.Query",
+                    "data_path": "action_result.data.*.Processes.*.Name",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.DNSRequests.*.Server",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.DNSRequests.*.Engines",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.DNSRequests.*.QueryType",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.DNSRequests.*.Responses.*.Type",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.DNSRequests.*.Responses.*.Value",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Screenshots.*.URI",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Screenshots.*.Engines",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Screenshots.*.Resource",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Screenshots.*.ImageHashes",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Screenshots.*.ArtifactPath",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.DisplayScore",
+                    "data_path": "action_result.data.*.Processes.*.PID",
                     "data_type": "numeric"
                 },
                 {
-                    "data_path": "action_result.data.*.MitreAttacks.*.ID",
+                    "data_path": "action_result.data.*.Processes.*.PPID",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.Processes.*.Path",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.MitreAttacks.*.Tactic",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.MitreAttacks.*.Engines",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.MitreAttacks.*.Technique",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.MitreAttacks.*.SubTechnique",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Registrykeys.*.Name",
+                    "data_path": "action_result.data.*.RegistryKeys",
                     "data_type": "string"
                 },
                 {
@@ -761,27 +1478,350 @@
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.WhoisResults.*.Org",
+                    "data_path": "action_result.data.*.Registrykeys.*.Name",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.WhoisResults.*.City",
+                    "data_path": "action_result.data.*.ResourceMap.0.ID",
+                    "data_type": "string",
+                    "example_values": [
+                        "c6e29c54-ca84-4368-8af6-38edc2c8398e"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResourceMap.0.Name",
+                    "data_type": "string",
+                    "example_values": [
+                        "https://boomerangdairysandbedding.com/wp-includes/fonts/QuickB2022/"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResourceMap.0.Type",
+                    "data_type": "string",
+                    "example_values": [
+                        "URL"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResourceMap.1.ID",
+                    "data_type": "string",
+                    "example_values": [
+                        "d7d53778-8ec3-405a-9ec2-9e0a5b998913"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResourceMap.1.Name",
+                    "data_type": "string",
+                    "example_values": [
+                        "https://c35.qbo.intuit.com/c35/v1975.230/0/extrequest/login/recover?source=login&locale=en_CA"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResourceMap.1.Type",
+                    "data_type": "string",
+                    "example_values": [
+                        "URL"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.SavedArtifacts",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.WhoisResults.*.Name",
+                    "data_path": "action_result.data.*.SavedArtifacts.*.ArtifactPath",
+                    "data_type": "string",
+                    "example_values": [
+                        "2022-11-23/lab/63572265-c5ae-402f-9fc1-6c90547482ee/8551cf5b-2095-426f-85ec-b8552c17bd53/7507bfcf1693c6a8f3f69d15121dc14aeb8dc9e301bac6568152fb50210e36fe.sample.gz"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.SavedArtifacts.*.Name",
+                    "data_type": "string",
+                    "example_values": [
+                        "7507bfcf1693c6a8f3f69d15121dc14aeb8dc9e301bac6568152fb50210e36fe"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.SavedArtifacts.*.ResourceTaskReferences.*.ResourceKey",
+                    "data_type": "string",
+                    "example_values": [
+                        "1"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.SavedArtifacts.*.ResourceTaskReferences.*.TaskKey",
+                    "data_type": "string",
+                    "example_values": [
+                        "3"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.SavedArtifacts.*.Type",
+                    "data_type": "string",
+                    "example_values": [
+                        "web_artifact"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Score",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.Screenshots.*.ArtifactPath",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.WhoisResults.*.State",
+                    "data_path": "action_result.data.*.Screenshots.*.Engines",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.WhoisResults.*.DNSSec",
+                    "data_path": "action_result.data.*.Screenshots.*.ImageHashes",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.WhoisResults.*.Emails",
+                    "data_path": "action_result.data.*.Screenshots.*.ImageHashes.ImageAvgHash",
+                    "data_type": "string",
+                    "example_values": [
+                        "183c1c3c18000000"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Screenshots.*.ImageHashes.ImageDhash",
+                    "data_type": "string",
+                    "example_values": [
+                        "b2b2b2b2320c2000"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Screenshots.*.ImageHashes.ImagePhash",
+                    "data_type": "string",
+                    "example_values": [
+                        "9999666666cc3363"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Screenshots.*.Resource",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Screenshots.*.ResourceTaskReferences.*.ResourceKey",
+                    "data_type": "string",
+                    "example_values": [
+                        "1"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Screenshots.*.ResourceTaskReferences.*.TaskKey",
+                    "data_type": "string",
+                    "example_values": [
+                        "3"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Screenshots.*.URI",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.StartTime",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Strings.*.Details.Source",
+                    "data_type": "string",
+                    "example_values": [
+                        "HTTP response content: https://c35.qbo.intuit.com/c35/v1975.230/0/extrequest/login/recover?source=login&locale=en_CA"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Strings.*.Details.Type",
+                    "data_type": "string",
+                    "example_values": [
+                        "http_response"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Strings.*.Details.URL",
+                    "data_type": "string",
+                    "example_values": [
+                        "https://c35.qbo.intuit.com/c35/v1975.230/0/extrequest/login/recover?source=login&locale=en_CA"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Strings.*.Engines",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Strings.*.ResourceTaskReferences.*.ResourceKey",
+                    "data_type": "string",
+                    "example_values": [
+                        "1"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Strings.*.ResourceTaskReferences.*.TaskKey",
+                    "data_type": "string",
+                    "example_values": [
+                        "3"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Strings.*.String",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.TLS",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.TLS.*.Destination.IP",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.TLS.*.Destination.Port",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.TLS.*.Details.JA3",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.TLS.*.Engines",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.TLS.*.Fingerprint",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.TLS.*.Issuer",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.TLS.*.Source.IP",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.TLS.*.Source.Port",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.TLS.*.Subject",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.TaskMap.0.Engine",
+                    "data_type": "string",
+                    "example_values": [
+                        "url_reputation"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.TaskMap.0.ID",
+                    "data_type": "string",
+                    "example_values": [
+                        "1ce8132e-87cf-43a5-8076-dce647ff2890"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.TaskMap.0.Score",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.TaskMap.1.Engine",
+                    "data_type": "string",
+                    "example_values": [
+                        "web_analyzer"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.TaskMap.1.ID",
+                    "data_type": "string",
+                    "example_values": [
+                        "8551cf5b-2095-426f-85ec-b8552c17bd53"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.TaskMap.1.Score",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.TaskMap.2.Engine",
+                    "data_type": "string",
+                    "example_values": [
+                        "url_reputation"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.TaskMap.2.ID",
+                    "data_type": "string",
+                    "example_values": [
+                        "c9a0139f-9803-4d77-816c-df7403d7d7bc"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.TaskMap.2.Score",
+                    "data_type": "numeric",
+                    "example_values": [
+                        0.4
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.TaskMap.3.Engine",
+                    "data_type": "string",
+                    "example_values": [
+                        "web_analyzer"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.TaskMap.3.ID",
+                    "data_type": "string",
+                    "example_values": [
+                        "cc46644a-b842-4361-acce-2e9febef46be"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.TaskMap.3.Score",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.URLs.*.Context",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.URLs.*.Engines",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.URLs.*.LinkText",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.URLs.*.ResourceTaskReferences.*.ResourceKey",
+                    "data_type": "string",
+                    "example_values": [
+                        "1"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.URLs.*.ResourceTaskReferences.*.TaskKey",
+                    "data_type": "string",
+                    "example_values": [
+                        "3"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.URLs.*.URL",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Verdict",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Version",
                     "data_type": "string"
                 },
                 {
@@ -789,15 +1829,11 @@
                     "data_type": "string"
                 },
                 {
+                    "data_path": "action_result.data.*.WhoisResults.*.City",
+                    "data_type": "string"
+                },
+                {
                     "data_path": "action_result.data.*.WhoisResults.*.Country",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.WhoisResults.*.Engines",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.WhoisResults.*.ZipCode",
                     "data_type": "string"
                 },
                 {
@@ -805,15 +1841,7 @@
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.WhoisResults.*.ExpiresAt",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.WhoisResults.*.Registrar",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.WhoisResults.*.UpdatedAt",
+                    "data_path": "action_result.data.*.WhoisResults.*.DNSSec",
                     "data_type": "string"
                 },
                 {
@@ -821,7 +1849,53 @@
                     "data_type": "string"
                 },
                 {
+                    "data_path": "action_result.data.*.WhoisResults.*.Emails",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.WhoisResults.*.Engines",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.WhoisResults.*.ExpiresAt",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.WhoisResults.*.Name",
+                    "data_type": "string"
+                },
+                {
                     "data_path": "action_result.data.*.WhoisResults.*.NameServers",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.WhoisResults.*.Org",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.WhoisResults.*.Registrar",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.WhoisResults.*.ResourceTaskReferences.*.ResourceKey",
+                    "data_type": "string",
+                    "example_values": [
+                        "0"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.WhoisResults.*.ResourceTaskReferences.*.TaskKey",
+                    "data_type": "string",
+                    "example_values": [
+                        "1"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.WhoisResults.*.State",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.WhoisResults.*.UpdatedAt",
                     "data_type": "string"
                 },
                 {
@@ -829,20 +1903,33 @@
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.PhishedBrands",
+                    "data_path": "action_result.data.*.WhoisResults.*.ZipCode",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.MalwareConfigs",
+                    "data_path": "action_result.summary",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.SavedArtifacts",
-                    "data_type": "string"
+                    "data_path": "action_result.message",
+                    "data_type": "string",
+                    "example_values": [
+                        "Job normal forensics retrieved"
+                    ]
                 },
                 {
-                    "data_path": "action_result.data.*.MalwareFamilies",
-                    "data_type": "string"
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
                 }
             ],
             "render": {
@@ -882,21 +1969,6 @@
             },
             "output": [
                 {
-                    "data_path": "action_result.parameter.job_id",
-                    "data_type": "string",
-                    "contains": [
-                        "twinwave job id"
-                    ]
-                },
-                {
-                    "data_path": "action_result.parameter.wait",
-                    "data_type": "boolean"
-                },
-                {
-                    "data_path": "action_result.parameter.timeout",
-                    "data_type": "numeric"
-                },
-                {
                     "data_path": "action_result.status",
                     "data_type": "string",
                     "example_values": [
@@ -905,94 +1977,36 @@
                     ]
                 },
                 {
-                    "data_path": "action_result.message",
-                    "data_type": "string"
+                    "data_path": "action_result.parameter.job_id",
+                    "data_type": "string",
+                    "contains": [
+                        "twinwave job id"
+                    ],
+                    "example_values": [
+                        "63572265-c5ae-402f-9fc1-6c90547482ee"
+                    ]
                 },
                 {
-                    "data_path": "summary.total_objects",
-                    "data_type": "numeric"
+                    "data_path": "action_result.parameter.timeout",
+                    "data_type": "numeric",
+                    "example_values": [
+                        30
+                    ]
                 },
                 {
-                    "data_path": "summary.total_objects_successful",
-                    "data_type": "numeric"
+                    "data_path": "action_result.parameter.wait",
+                    "data_type": "boolean",
+                    "example_values": [
+                        "true",
+                        "false"
+                    ]
                 },
                 {
                     "data_path": "action_result.data",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.summary",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.*.data.*.ID",
-                    "data_type": "string",
-                    "contains": [
-                        "twinwave job id"
-                    ]
-                },
-                {
-                    "data_path": "action_result.data.*.Score",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "action_result.data.*.State",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Tasks.*.ID",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Tasks.*.State",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Tasks.*.Engine",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Tasks.*.Results.*.Score",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "action_result.data.*.Tasks.*.Results.*.Details",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Tasks.*.Results.*.Forensics.*.Raw",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Tasks.*.Results.*.Forensics.*.Normalized",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Tasks.*.Priority",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "action_result.data.*.Tasks.*.CreatedAt",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Tasks.*.StartedAt",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Tasks.*.StateText",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Tasks.*.StateText",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Tasks.*.UpdatedAt",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Tasks.*.ResourceID",
+                    "data_path": "action_result.data.*.APIKey",
                     "data_type": "string"
                 },
                 {
@@ -1002,6 +2016,33 @@
                 {
                     "data_path": "action_result.data.*.APIKey.*.Label",
                     "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.APIKeyID",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.CompletedAt",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.CreatedAt",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.DisplayScore",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.ForensicsPath",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.ID",
+                    "data_type": "string",
+                    "example_values": [
+                        "63572265-c5ae-402f-9fc1-6c90547482ee"
+                    ]
                 },
                 {
                     "data_path": "action_result.data.*.Labels.*.ID",
@@ -1020,7 +2061,431 @@
                     "data_type": "string"
                 },
                 {
+                    "data_path": "action_result.data.*.Parameters",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Parameters.*.Name",
+                    "data_type": "string",
+                    "example_values": [
+                        "decode_rewritten_urls"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Parameters.*.Value",
+                    "data_type": "string",
+                    "example_values": [
+                        "true"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Priority",
+                    "data_type": "numeric"
+                },
+                {
                     "data_path": "action_result.data.*.Profile",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.RequestedEngines",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.ResourceCount",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.ResourceTree",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.ResourceTree.Children.*.CreatedAt",
+                    "data_type": "string",
+                    "example_values": [
+                        "2022-11-23T00:45:27.441Z"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResourceTree.Children.*.DisplayScore",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.ResourceTree.Children.*.FileMetadata.FileType",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.ResourceTree.Children.*.FileMetadata.IsEncrypted",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.ResourceTree.Children.*.FileMetadata.MD5",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.ResourceTree.Children.*.FileMetadata.MimeType",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.ResourceTree.Children.*.FileMetadata.SHA256",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.ResourceTree.Children.*.FileMetadata.Size",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.ResourceTree.Children.*.ID",
+                    "data_type": "string",
+                    "example_values": [
+                        "d7d53778-8ec3-405a-9ec2-9e0a5b998913"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResourceTree.Children.*.InjectionMetadata.AddedBecause",
+                    "data_type": "string",
+                    "example_values": [
+                        "click"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResourceTree.Children.*.InjectionMetadata.AddedBy",
+                    "data_type": "string",
+                    "example_values": [
+                        "web_analyzer"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResourceTree.Children.*.JobID",
+                    "data_type": "string",
+                    "example_values": [
+                        "63572265-c5ae-402f-9fc1-6c90547482ee"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResourceTree.Children.*.Location",
+                    "data_type": "string",
+                    "example_values": [
+                        "https://c35.qbo.intuit.com/c35/v1975.230/0/extrequest/login/recover?source=login&locale=en_CA"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResourceTree.Children.*.Name",
+                    "data_type": "string",
+                    "example_values": [
+                        "https://c35.qbo.intuit.com/c35/v1975.230/0/extrequest/login/recover?source=login&locale=en_CA"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResourceTree.Children.*.ParentID",
+                    "data_type": "string",
+                    "example_values": [
+                        "c6e29c54-ca84-4368-8af6-38edc2c8398e"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResourceTree.Children.*.Score",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.ResourceTree.Children.*.Type",
+                    "data_type": "string",
+                    "example_values": [
+                        "URL"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResourceTree.CreatedAt",
+                    "data_type": "string",
+                    "example_values": [
+                        "2022-11-23T00:44:12.857Z"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResourceTree.DisplayScore",
+                    "data_type": "numeric",
+                    "example_values": [
+                        100
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResourceTree.FileMetadata.FileType",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.ResourceTree.FileMetadata.IsEncrypted",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.ResourceTree.FileMetadata.MD5",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.ResourceTree.FileMetadata.MimeType",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.ResourceTree.FileMetadata.SHA256",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.ResourceTree.FileMetadata.Size",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.ResourceTree.ID",
+                    "data_type": "string",
+                    "example_values": [
+                        "c6e29c54-ca84-4368-8af6-38edc2c8398e"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResourceTree.InjectionMetadata.AddedBecause",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.ResourceTree.InjectionMetadata.AddedBy",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.ResourceTree.JobID",
+                    "data_type": "string",
+                    "example_values": [
+                        "63572265-c5ae-402f-9fc1-6c90547482ee"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResourceTree.Location",
+                    "data_type": "string",
+                    "example_values": [
+                        "https://boomerangdairysandbedding.com/wp-includes/fonts/QuickB2022/"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResourceTree.Name",
+                    "data_type": "string",
+                    "example_values": [
+                        "https://boomerangdairysandbedding.com/wp-includes/fonts/QuickB2022/"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResourceTree.ParentID",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.ResourceTree.Score",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.ResourceTree.Type",
+                    "data_type": "string",
+                    "example_values": [
+                        "URL"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.Children.*.CreatedAt",
+                    "data_type": "string",
+                    "example_values": [
+                        "2022-11-23T00:45:27.441Z"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.Children.*.DisplayScore",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.Children.*.FileMetadata.FileType",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.Children.*.FileMetadata.IsEncrypted",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.Children.*.FileMetadata.MD5",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.Children.*.FileMetadata.MimeType",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.Children.*.FileMetadata.SHA256",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.Children.*.FileMetadata.Size",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.Children.*.ID",
+                    "data_type": "string",
+                    "example_values": [
+                        "d7d53778-8ec3-405a-9ec2-9e0a5b998913"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.Children.*.InjectionMetadata.AddedBecause",
+                    "data_type": "string",
+                    "example_values": [
+                        "click"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.Children.*.InjectionMetadata.AddedBy",
+                    "data_type": "string",
+                    "example_values": [
+                        "web_analyzer"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.Children.*.JobID",
+                    "data_type": "string",
+                    "example_values": [
+                        "63572265-c5ae-402f-9fc1-6c90547482ee"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.Children.*.Location",
+                    "data_type": "string",
+                    "example_values": [
+                        "https://c35.qbo.intuit.com/c35/v1975.230/0/extrequest/login/recover?source=login&locale=en_CA"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.Children.*.Name",
+                    "data_type": "string",
+                    "example_values": [
+                        "https://c35.qbo.intuit.com/c35/v1975.230/0/extrequest/login/recover?source=login&locale=en_CA"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.Children.*.ParentID",
+                    "data_type": "string",
+                    "example_values": [
+                        "c6e29c54-ca84-4368-8af6-38edc2c8398e"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.Children.*.Score",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.Children.*.Type",
+                    "data_type": "string",
+                    "example_values": [
+                        "URL"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.CreatedAt",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.DisplayScore",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.FileMetadata.*.FileType",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.FileMetadata.*.IsEncrypted",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.FileMetadata.*.MD5",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.FileMetadata.*.MimeType",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.FileMetadata.*.SHA256",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.FileMetadata.*.Size",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.FileMetadata.FileType",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.FileMetadata.IsEncrypted",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.FileMetadata.MD5",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.FileMetadata.MimeType",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.FileMetadata.SHA256",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.FileMetadata.Size",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.ID",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.InjectionMetadata.*.AddedBecause",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.InjectionMetadata.*.AddedBy",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.InjectionMetadata.AddedBecause",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.InjectionMetadata.AddedBy",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.JobID",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.Location",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.Name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.ParentID",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.Score",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.Type",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Score",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.Sharing.*.ShareToken",
                     "data_type": "string"
                 },
                 {
@@ -1032,99 +2497,15 @@
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.Sharing.*.ShareToken",
+                    "data_path": "action_result.data.*.Sharing.ShareToken",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.APIKeyID",
+                    "data_path": "action_result.data.*.Sharing.SharedAt",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.Priority",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "action_result.data.*.TenantID",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Username",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.CreatedAt",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Resources.*.ID",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Resources.*.Name",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Resources.*.Type",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Resources.*.JobID",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Resources.*.Score",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "action_result.data.*.Resources.*.Location",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Resources.*.ParentID",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Resources.*.CreatedAt",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Resources.*.DisplayScore",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "action_result.data.*.Resources.*.FileMetadata.*.MD5",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Resources.*.FileMetadata.*.Size",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "action_result.data.*.Resources.*.FileMetadata.*.SHA256",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Resources.*.FileMetadata.*.FileType",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Resources.*.FileMetadata.*.MimeType",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Resources.*.FileMetadata.*.IsEncrypted",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Resources.*.InjectionMetadata.*.AddedBy",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Resources.*.InjectionMetadata.*.AddedBecause",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.ResourceTree",
+                    "data_path": "action_result.data.*.Sharing.SharedBy",
                     "data_type": "string"
                 },
                 {
@@ -1132,11 +2513,26 @@
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.UpdatedAt",
+                    "data_path": "action_result.data.*.State",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.Parameters",
+                    "data_path": "action_result.data.*.Submission.MD5",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Submission.Name",
+                    "data_type": "string",
+                    "example_values": [
+                        "https://boomerangdairysandbedding.com/wp-includes/fonts/QuickB2022/"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Submission.SHA256",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.SubmissionSource",
                     "data_type": "string"
                 },
                 {
@@ -1152,32 +2548,322 @@
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.CompletedAt",
+                    "data_path": "action_result.data.*.Tasks.*.CreatedAt",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.DisplayScore",
+                    "data_path": "action_result.data.*.Tasks.*.Engine",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.ID",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.Priority",
                     "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.ResourceID",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.Results.*.Details",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.Results.*.Forensics.*.Normalized",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.Results.*.Forensics.*.Raw",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.Results.*.Score",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.Results.Details.Engines.apivoid.*.Permalink",
+                    "data_type": "string",
+                    "example_values": [
+                        "https://www.urlvoid.com/scan/boomerangdairysandbedding.com/"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.Results.Details.Engines.apivoid.*.ScanTime",
+                    "data_type": "string",
+                    "example_values": [
+                        "2022-11-23T00:44:14.342421119Z"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.Results.Details.Engines.apivoid.*.Score",
+                    "data_type": "numeric",
+                    "example_values": [
+                        0.4
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.Results.Details.NetworkEgress.Endpoint",
+                    "data_type": "string",
+                    "example_values": [
+                        "d9cec4861bfb4c6a9137f984896c2447.i8.torguard_t_texas_70-125-225-207_udp.us_residential.vpn.prod-tf:49505"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.Results.Details.NetworkEgress.PublicIP",
+                    "data_type": "string",
+                    "example_values": [
+                        "70.125.225.207"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.Results.Details.NetworkEgress.Region",
+                    "data_type": "string",
+                    "example_values": [
+                        "us_residential"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.Results.Details.NetworkEgress.UserAgent",
+                    "data_type": "string",
+                    "example_values": [
+                        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.67 Safari/537.36 Edg/100.0.1185.39"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.Results.Details.NetworkEgress.UserAgentAlias",
+                    "data_type": "string",
+                    "example_values": [
+                        "default"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.Results.Details.RootTaskID",
+                    "data_type": "string",
+                    "example_values": [
+                        "8551cf5b-2095-426f-85ec-b8552c17bd53"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.Results.Details.Title",
+                    "data_type": "string",
+                    "example_values": [
+                        "QuickBooks Login - Sign in to QuickBooks to manage your business"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.Results.Details.Whois.Address",
+                    "data_type": "string",
+                    "example_values": [
+                        "3839 Road 160"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.Results.Details.Whois.City",
+                    "data_type": "string",
+                    "example_values": [
+                        "Markham"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.Results.Details.Whois.Country",
+                    "data_type": "string",
+                    "example_values": [
+                        "CA"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.Results.Details.Whois.CreatedAt",
+                    "data_type": "string",
+                    "example_values": [
+                        "2012-09-20T17:40:47+00:00"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.Results.Details.Whois.DNSSec",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.Results.Details.Whois.Details",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.Results.Details.Whois.DomainName",
+                    "data_type": "string",
+                    "example_values": [
+                        "boomerangdairysandbedding.com"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.Results.Details.Whois.Engines",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.Results.Details.Whois.ExpiresAt",
+                    "data_type": "string",
+                    "example_values": [
+                        "2023-09-20T17:40:47+00:00"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.Results.Details.Whois.Name",
+                    "data_type": "string",
+                    "example_values": [
+                        "John Moses"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.Results.Details.Whois.Org",
+                    "data_type": "string",
+                    "example_values": [
+                        "Private Registration"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.Results.Details.Whois.Registrar",
+                    "data_type": "string",
+                    "example_values": [
+                        "BRANDON GRAY INTERNET SERVICES, INC. DBA NAMEJUICE.COM"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.Results.Details.Whois.State",
+                    "data_type": "string",
+                    "example_values": [
+                        "ON"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.Results.Details.Whois.Timestamp",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.Results.Details.Whois.UpdatedAt",
+                    "data_type": "string",
+                    "example_values": [
+                        "2022-08-31T18:17:28+00:00"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.Results.Details.Whois.Verdict",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.Results.Details.Whois.WhoisServer",
+                    "data_type": "string",
+                    "example_values": [
+                        "whois.namejuice.com"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.Results.Details.Whois.ZipCode",
+                    "data_type": "string",
+                    "example_values": [
+                        "unknown"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.Results.DisplayScore",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.Results.Forensics.Normalized",
+                    "data_type": "string",
+                    "example_values": [
+                        "normalized/2022-11-23/lab/63572265-c5ae-402f-9fc1-6c90547482ee/1ce8132e-87cf-43a5-8076-dce647ff2890/2b83ece5-a1d4-48a7-8df3-b706eec61287.json.gz"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.Results.Forensics.Raw",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.Results.Score",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.StartedAt",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.State",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.StateText",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.StateText",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.UpdatedAt",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.TenantID",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.UpdatedAt",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Username",
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.data.*.Verdict",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.ForensicsPath",
+                    "data_path": "action_result.summary",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.ResourceCount",
-                    "data_type": "numeric"
+                    "data_path": "action_result.summary.JobID",
+                    "data_type": "string",
+                    "example_values": [
+                        "63572265-c5ae-402f-9fc1-6c90547482ee"
+                    ]
                 },
                 {
-                    "data_path": "action_result.data.*.RequestedEngines",
-                    "data_type": "string"
+                    "data_path": "action_result.summary.Score",
+                    "data_type": "numeric",
+                    "example_values": [
+                        100
+                    ]
                 },
                 {
-                    "data_path": "action_result.data.*.SubmissionSource",
-                    "data_type": "string"
+                    "data_path": "action_result.summary.Verdict",
+                    "data_type": "string",
+                    "example_values": [
+                        "phish"
+                    ]
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string",
+                    "example_values": [
+                        "Jobid: 63572265-c5ae-402f-9fc1-6c90547482ee, Score: 100, Verdict: phish"
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric",
+                    "example_values": [
+                        2
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric",
+                    "example_values": [
+                        2
+                    ]
                 }
             ],
             "render": {
@@ -1200,96 +2886,370 @@
                 {
                     "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "Status",
-                    "column_order": 0,
                     "example_values": [
                         "success",
                         "failed"
                     ]
                 },
                 {
-                    "data_path": "action_result.message",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "summary.total_objects",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "summary.total_objects_successful",
-                    "data_type": "numeric"
-                },
-                {
                     "data_path": "action_result.data",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.ID",
+                    "data_path": "action_result.data.*.*.APIKey",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.Score",
+                    "data_path": "action_result.data.*.*.APIKeyID",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.*.CompletedAt",
+                    "data_type": "string",
+                    "example_values": [
+                        "2022-11-23T00:45:29.544Z"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.*.CreatedAt",
+                    "data_type": "string",
+                    "example_values": [
+                        "2022-11-23T00:44:12.855Z"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.*.DisplayScore",
+                    "data_type": "numeric",
+                    "example_values": [
+                        100
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.*.ForensicsPath",
+                    "data_type": "string",
+                    "example_values": [
+                        "consolidated/2022-11-23/lab/63572265-c5ae-402f-9fc1-6c90547482ee/63572265-c5ae-402f-9fc1-6c90547482ee.json.gz"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.*.ID",
+                    "data_type": "string",
+                    "column_name": "Job id",
+                    "column_order": 0,
+                    "example_values": [
+                        "63572265-c5ae-402f-9fc1-6c90547482ee"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.*.Labels.*.Type",
+                    "data_type": "string",
+                    "example_values": [
+                        "phished_brand"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.*.Labels.*.Value",
+                    "data_type": "string",
+                    "example_values": [
+                        "Intuit"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.*.Parameters.*.Name",
+                    "data_type": "string",
+                    "example_values": [
+                        "decode_rewritten_urls"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.*.Parameters.*.Value",
+                    "data_type": "string",
+                    "example_values": [
+                        "true"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.*.Priority",
+                    "data_type": "numeric",
+                    "example_values": [
+                        5
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.*.Profile",
+                    "data_type": "string",
+                    "example_values": [
+                        "default"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.*.RequestedEngines",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.*.ResourceCount",
+                    "data_type": "numeric",
+                    "example_values": [
+                        2
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.*.Resources.*.CreatedAt",
+                    "data_type": "string",
+                    "example_values": [
+                        "2022-11-23T00:44:12.857Z"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.*.Resources.*.DisplayScore",
+                    "data_type": "numeric",
+                    "example_values": [
+                        100
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.*.Resources.*.FileMetadata.FileType",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.*.Resources.*.FileMetadata.IsEncrypted",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.*.Resources.*.FileMetadata.MD5",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.*.Resources.*.FileMetadata.MimeType",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.*.Resources.*.FileMetadata.SHA256",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.*.Resources.*.FileMetadata.Size",
                     "data_type": "numeric"
                 },
                 {
-                    "data_path": "action_result.data.*.State",
+                    "data_path": "action_result.data.*.*.Resources.*.ID",
+                    "data_type": "string",
+                    "example_values": [
+                        "c6e29c54-ca84-4368-8af6-38edc2c8398e"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.*.Resources.*.InjectionMetadata.AddedBecause",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.Tasks.*.ID",
+                    "data_path": "action_result.data.*.*.Resources.*.InjectionMetadata.AddedBy",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.Tasks.*.State",
+                    "data_path": "action_result.data.*.*.Resources.*.JobID",
+                    "data_type": "string",
+                    "example_values": [
+                        "63572265-c5ae-402f-9fc1-6c90547482ee"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.*.Resources.*.Location",
+                    "data_type": "string",
+                    "example_values": [
+                        "https://boomerangdairysandbedding.com/wp-includes/fonts/QuickB2022/"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.*.Resources.*.Name",
+                    "data_type": "string",
+                    "example_values": [
+                        "https://boomerangdairysandbedding.com/wp-includes/fonts/QuickB2022/"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.*.Resources.*.ParentID",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.Tasks.*.Engine",
+                    "data_path": "action_result.data.*.*.Resources.*.Score",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.*.Resources.*.Type",
+                    "data_type": "string",
+                    "example_values": [
+                        "URL"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.*.Score",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.*.Sharing.ShareToken",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.Tasks.*.Results.*.Score",
+                    "data_path": "action_result.data.*.*.Sharing.SharedAt",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.*.Sharing.SharedBy",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.*.StartedAt",
+                    "data_type": "string",
+                    "example_values": [
+                        "2022-11-23T00:44:13.256Z"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.*.State",
+                    "data_type": "string",
+                    "example_values": [
+                        "done"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.*.Submission.MD5",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.*.Submission.Name",
+                    "data_type": "string",
+                    "example_values": [
+                        "https://boomerangdairysandbedding.com/wp-includes/fonts/QuickB2022/"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.*.Submission.SHA256",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.*.SubmissionSource",
+                    "data_type": "string",
+                    "example_values": [
+                        "UI"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.*.Tasks.*.CreatedAt",
+                    "data_type": "string",
+                    "example_values": [
+                        "2022-11-23T00:45:27.453Z"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.*.Tasks.*.Engine",
+                    "data_type": "string",
+                    "example_values": [
+                        "url_reputation"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.*.Tasks.*.ID",
+                    "data_type": "string",
+                    "example_values": [
+                        "1ce8132e-87cf-43a5-8076-dce647ff2890"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.*.Tasks.*.Priority",
+                    "data_type": "numeric",
+                    "example_values": [
+                        5
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.*.Tasks.*.ResourceID",
+                    "data_type": "string",
+                    "example_values": [
+                        "d7d53778-8ec3-405a-9ec2-9e0a5b998913"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.*.Tasks.*.Results.Details",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.*.Tasks.*.Results.DisplayScore",
                     "data_type": "numeric"
                 },
                 {
-                    "data_path": "action_result.data.*.Tasks.*.Results.*.Details",
+                    "data_path": "action_result.data.*.*.Tasks.*.Results.Forensics.Normalized",
+                    "data_type": "string",
+                    "example_values": [
+                        "normalized/2022-11-23/lab/63572265-c5ae-402f-9fc1-6c90547482ee/1ce8132e-87cf-43a5-8076-dce647ff2890/2b83ece5-a1d4-48a7-8df3-b706eec61287.json.gz"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.*.Tasks.*.Results.Forensics.Raw",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.Tasks.*.Results.*.Forensics.*.Raw",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Tasks.*.Results.*.Forensics.*.Normalized",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Tasks.*.Priority",
+                    "data_path": "action_result.data.*.*.Tasks.*.Results.Score",
                     "data_type": "numeric"
                 },
                 {
-                    "data_path": "action_result.data.*.Tasks.*.CreatedAt",
+                    "data_path": "action_result.data.*.*.Tasks.*.StartedAt",
+                    "data_type": "string",
+                    "example_values": [
+                        "2022-11-23T00:45:27.564Z"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.*.Tasks.*.State",
+                    "data_type": "string",
+                    "example_values": [
+                        "done"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.*.Tasks.*.StateText",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.Tasks.*.StartedAt",
-                    "data_type": "string"
+                    "data_path": "action_result.data.*.*.Tasks.*.UpdatedAt",
+                    "data_type": "string",
+                    "example_values": [
+                        "2022-11-23T00:45:29.113Z"
+                    ]
                 },
                 {
-                    "data_path": "action_result.data.*.Tasks.*.StateText",
-                    "data_type": "string"
+                    "data_path": "action_result.data.*.*.TenantID",
+                    "data_type": "string",
+                    "example_values": [
+                        "lab"
+                    ]
                 },
                 {
-                    "data_path": "action_result.data.*.Tasks.*.StateText",
-                    "data_type": "string"
+                    "data_path": "action_result.data.*.*.UpdatedAt",
+                    "data_type": "string",
+                    "example_values": [
+                        "2022-11-23T00:45:29.545Z"
+                    ]
                 },
                 {
-                    "data_path": "action_result.data.*.Tasks.*.UpdatedAt",
-                    "data_type": "string"
+                    "data_path": "action_result.data.*.*.Username",
+                    "data_type": "string",
+                    "example_values": [
+                        "lab@data.com"
+                    ]
                 },
                 {
-                    "data_path": "action_result.data.*.Tasks.*.ResourceID",
-                    "data_type": "string"
+                    "data_path": "action_result.data.*.*.Verdict",
+                    "data_type": "string",
+                    "example_values": [
+                        "phish"
+                    ]
                 },
                 {
                     "data_path": "action_result.data.*.APIKey.*.ID",
@@ -1297,6 +3257,30 @@
                 },
                 {
                     "data_path": "action_result.data.*.APIKey.*.Label",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.APIKeyID",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.CompletedAt",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.CreatedAt",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.DisplayScore",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.ForensicsPath",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.ID",
                     "data_type": "string"
                 },
                 {
@@ -1316,7 +3300,99 @@
                     "data_type": "string"
                 },
                 {
+                    "data_path": "action_result.data.*.Parameters",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Priority",
+                    "data_type": "numeric"
+                },
+                {
                     "data_path": "action_result.data.*.Profile",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.RequestedEngines",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.ResourceCount",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.CreatedAt",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.DisplayScore",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.FileMetadata.*.FileType",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.FileMetadata.*.IsEncrypted",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.FileMetadata.*.MD5",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.FileMetadata.*.MimeType",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.FileMetadata.*.SHA256",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.FileMetadata.*.Size",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.ID",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.InjectionMetadata.*.AddedBecause",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.InjectionMetadata.*.AddedBy",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.JobID",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.Location",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.Name",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.ParentID",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.Score",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.Resources.*.Type",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Score",
+                    "data_type": "numeric"
+                },
+                {
+                    "data_path": "action_result.data.*.Sharing.*.ShareToken",
                     "data_type": "string"
                 },
                 {
@@ -1328,107 +3404,15 @@
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.Sharing.*.ShareToken",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.APIKeyID",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Priority",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "action_result.data.*.TenantID",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Username",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.CreatedAt",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Resources.*.ID",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Resources.*.Name",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Resources.*.Type",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Resources.*.JobID",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Resources.*.Score",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "action_result.data.*.Resources.*.Location",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Resources.*.ParentID",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Resources.*.CreatedAt",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Resources.*.DisplayScore",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "action_result.data.*.Resources.*.FileMetadata.*.MD5",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Resources.*.FileMetadata.*.Size",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "action_result.data.*.Resources.*.FileMetadata.*.SHA256",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Resources.*.FileMetadata.*.FileType",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Resources.*.FileMetadata.*.MimeType",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Resources.*.FileMetadata.*.IsEncrypted",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Resources.*.InjectionMetadata.*.AddedBy",
-                    "data_type": "string"
-                },
-                {
-                    "data_path": "action_result.data.*.Resources.*.InjectionMetadata.*.AddedBecause",
-                    "data_type": "string"
-                },
-                {
                     "data_path": "action_result.data.*.StartedAt",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.UpdatedAt",
+                    "data_path": "action_result.data.*.State",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.Parameters",
+                    "data_path": "action_result.data.*.SubmissionSource",
                     "data_type": "string"
                 },
                 {
@@ -1444,32 +3428,104 @@
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.CompletedAt",
+                    "data_path": "action_result.data.*.Tasks.*.CreatedAt",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.DisplayScore",
+                    "data_path": "action_result.data.*.Tasks.*.Engine",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.ID",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.Priority",
                     "data_type": "numeric"
                 },
                 {
-                    "data_path": "action_result.data.*.ForensicsPath",
+                    "data_path": "action_result.data.*.Tasks.*.ResourceID",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.ResourceCount",
+                    "data_path": "action_result.data.*.Tasks.*.Results.*.Details",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.Results.*.Forensics.*.Normalized",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.Results.*.Forensics.*.Raw",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.Results.*.Score",
                     "data_type": "numeric"
                 },
                 {
-                    "data_path": "action_result.data.*.RequestedEngines",
+                    "data_path": "action_result.data.*.Tasks.*.StartedAt",
                     "data_type": "string"
                 },
                 {
-                    "data_path": "action_result.data.*.SubmissionSource",
+                    "data_path": "action_result.data.*.Tasks.*.State",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.StateText",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.StateText",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Tasks.*.UpdatedAt",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.TenantID",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.UpdatedAt",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.Username",
                     "data_type": "string"
                 },
                 {
                     "data_path": "action_result.summary",
                     "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.summary.job_count",
+                    "data_type": "numeric",
+                    "example_values": [
+                        2
+                    ]
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string",
+                    "example_values": [
+                        "Job count: 2"
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric",
+                    "example_values": [
+                        2
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric",
+                    "example_values": [
+                        2
+                    ]
                 }
             ],
             "render": {
@@ -1497,35 +3553,33 @@
             },
             "output": [
                 {
-                    "data_path": "action_result.parameter.file",
-                    "data_type": "string",
-                    "contains": [
-                        "vault id"
-                    ],
-                    "column_name": "File",
-                    "column_order": 0
-                },
-                {
                     "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "Status",
-                    "column_order": 1,
                     "example_values": [
                         "success",
                         "failed"
                     ]
                 },
                 {
-                    "data_path": "action_result.message",
-                    "data_type": "string"
+                    "data_path": "action_result.parameter.file",
+                    "data_type": "string",
+                    "contains": [
+                        "vault id"
+                    ],
+                    "column_name": "File",
+                    "column_order": 0,
+                    "example_values": [
+                        "89b238c79fe01b7752948b176222ae0010d0a1ef"
+                    ]
                 },
                 {
-                    "data_path": "summary.total_objects",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "summary.total_objects_successful",
-                    "data_type": "numeric"
+                    "data_path": "action_result.data.*.AppURL",
+                    "data_type": "string",
+                    "contains": [
+                        "url"
+                    ],
+                    "column_name": "App URL",
+                    "column_order": 2
                 },
                 {
                     "data_path": "action_result.data.*.JobID",
@@ -1534,7 +3588,7 @@
                         "twinwave job id"
                     ],
                     "column_name": "Job ID",
-                    "column_order": 2
+                    "column_order": 1
                 },
                 {
                     "data_path": "action_result.data.*.QueueDepth",
@@ -1545,17 +3599,29 @@
                     "data_type": "numeric"
                 },
                 {
-                    "data_path": "action_result.data.*.AppURL",
-                    "data_type": "string",
-                    "contains": [
-                        "url"
-                    ],
-                    "column_name": "App URL",
-                    "column_order": 3
-                },
-                {
                     "data_path": "action_result.summary",
                     "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string",
+                    "example_values": [
+                        "Submitted file"
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric",
+                    "example_values": [
+                        2
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric",
+                    "example_values": [
+                        2
+                    ]
                 }
             ],
             "render": {
@@ -1583,35 +3649,33 @@
             },
             "output": [
                 {
-                    "data_path": "action_result.parameter.url",
-                    "data_type": "string",
-                    "contains": [
-                        "url"
-                    ],
-                    "column_name": "URL",
-                    "column_order": 0
-                },
-                {
                     "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "Status",
-                    "column_order": 1,
                     "example_values": [
                         "success",
                         "failed"
                     ]
                 },
                 {
-                    "data_path": "action_result.message",
-                    "data_type": "string"
+                    "data_path": "action_result.parameter.url",
+                    "data_type": "string",
+                    "contains": [
+                        "url"
+                    ],
+                    "column_name": "URL",
+                    "column_order": 0,
+                    "example_values": [
+                        "https://classic.cdn.net/v1993.137/scripts/sharedScripts.js"
+                    ]
                 },
                 {
-                    "data_path": "summary.total_objects",
-                    "data_type": "numeric"
-                },
-                {
-                    "data_path": "summary.total_objects_successful",
-                    "data_type": "numeric"
+                    "data_path": "action_result.data.*.AppURL",
+                    "data_type": "string",
+                    "contains": [
+                        "url"
+                    ],
+                    "column_name": "App URL",
+                    "column_order": 2
                 },
                 {
                     "data_path": "action_result.data.*.JobID",
@@ -1620,7 +3684,7 @@
                         "twinwave job id"
                     ],
                     "column_name": "Job ID",
-                    "column_order": 2
+                    "column_order": 1
                 },
                 {
                     "data_path": "action_result.data.*.QueueDepth",
@@ -1631,17 +3695,29 @@
                     "data_type": "numeric"
                 },
                 {
-                    "data_path": "action_result.data.*.AppURL",
-                    "data_type": "string",
-                    "contains": [
-                        "url"
-                    ],
-                    "column_name": "App URL",
-                    "column_order": 3
-                },
-                {
                     "data_path": "action_result.summary",
                     "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string",
+                    "example_values": [
+                        "Submitted URL"
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric",
+                    "example_values": [
+                        2
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric",
+                    "example_values": [
+                        2
+                    ]
                 }
             ],
             "render": {
@@ -1681,30 +3757,38 @@
             },
             "output": [
                 {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "column_name": "Status",
+                    "column_order": 0,
+                    "example_values": [
+                        "success",
+                        "failed"
+                    ]
+                },
+                {
                     "data_path": "action_result.parameter.job_id",
                     "data_type": "string",
                     "contains": [
                         "twinwave job id"
                     ],
-                    "column_name": "Job ID",
-                    "column_order": 0
-                },
-                {
-                    "data_path": "action_result.parameter.wait",
-                    "data_type": "boolean"
+                    "example_values": [
+                        "63572265-c5ae-402f-9fc1-6c90547482ee"
+                    ]
                 },
                 {
                     "data_path": "action_result.parameter.timeout",
-                    "data_type": "numeric"
+                    "data_type": "numeric",
+                    "example_values": [
+                        30
+                    ]
                 },
                 {
-                    "data_path": "action_result.status",
-                    "data_type": "string",
-                    "column_name": "Status",
-                    "column_order": 1,
+                    "data_path": "action_result.parameter.wait",
+                    "data_type": "boolean",
                     "example_values": [
-                        "success",
-                        "failed"
+                        "true",
+                        "false"
                     ]
                 },
                 {
@@ -1717,15 +3801,24 @@
                 },
                 {
                     "data_path": "action_result.message",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "example_values": [
+                        "Successfully attached PDF report"
+                    ]
                 },
                 {
                     "data_path": "summary.total_objects",
-                    "data_type": "numeric"
+                    "data_type": "numeric",
+                    "example_values": [
+                        2
+                    ]
                 },
                 {
                     "data_path": "summary.total_objects_successful",
-                    "data_type": "numeric"
+                    "data_type": "numeric",
+                    "example_values": [
+                        2
+                    ]
                 }
             ],
             "render": {
@@ -1765,53 +3858,84 @@
             },
             "output": [
                 {
-                    "data_path": "action_result.parameter.job_id",
-                    "data_type": "string",
-                    "contains": [
-                        "twinwave job id"
-                    ],
-                    "column_name": "Job ID",
-                    "column_order": 0
-                },
-                {
-                    "data_path": "action_result.parameter.wait",
-                    "data_type": "boolean"
-                },
-                {
-                    "data_path": "action_result.parameter.timeout",
-                    "data_type": "numeric"
-                },
-                {
                     "data_path": "action_result.status",
                     "data_type": "string",
                     "column_name": "Status",
-                    "column_order": 1,
+                    "column_order": 0,
                     "example_values": [
                         "success",
                         "failed"
                     ]
                 },
                 {
+                    "data_path": "action_result.parameter.job_id",
+                    "data_type": "string",
+                    "contains": [
+                        "twinwave job id"
+                    ],
+                    "example_values": [
+                        "63572265-c5ae-402f-9fc1-6c90547482ee"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.timeout",
+                    "data_type": "numeric",
+                    "example_values": [
+                        30
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.wait",
+                    "data_type": "boolean",
+                    "example_values": [
+                        "true",
+                        "false"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data",
+                    "data_type": "string"
+                },
+                {
                     "data_path": "action_result.data.*.screenshot_count",
                     "data_type": "numeric",
-                    "column_name": "Screenshot Count",
-                    "column_order": 2
+                    "example_values": [
+                        2
+                    ]
                 },
                 {
                     "data_path": "action_result.summary",
                     "data_type": "string"
                 },
                 {
+                    "data_path": "action_result.summary.screenshot_count",
+                    "data_type": "numeric",
+                    "column_name": "Screenshot Count",
+                    "column_order": 1,
+                    "example_values": [
+                        2
+                    ]
+                },
+                {
                     "data_path": "action_result.message",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "example_values": [
+                        "Screenshot count: 2"
+                    ]
                 },
                 {
                     "data_path": "summary.total_objects",
-                    "data_type": "numeric"
+                    "data_type": "numeric",
+                    "example_values": [
+                        2
+                    ]
                 },
                 {
                     "data_path": "summary.total_objects_successful",
-                    "data_type": "numeric"
+                    "data_type": "numeric",
+                    "example_values": [
+                        2
+                    ]
                 }
             ],
             "render": {
@@ -1824,7 +3948,7 @@
         "wheel": [
             {
                 "module": "certifi",
-                "input_file": "wheels/shared/certifi-2021.10.8-py2.py3-none-any.whl"
+                "input_file": "wheels/py3/certifi-2022.12.7-py3-none-any.whl"
             },
             {
                 "module": "charset_normalizer",
@@ -1832,7 +3956,7 @@
             },
             {
                 "module": "idna",
-                "input_file": "wheels/py3/idna-3.3-py3-none-any.whl"
+                "input_file": "wheels/py3/idna-3.4-py3-none-any.whl"
             },
             {
                 "module": "requests",
@@ -1840,7 +3964,7 @@
             },
             {
                 "module": "urllib3",
-                "input_file": "wheels/shared/urllib3-1.26.8-py2.py3-none-any.whl"
+                "input_file": "wheels/shared/urllib3-1.26.13-py2.py3-none-any.whl"
             }
         ]
     }

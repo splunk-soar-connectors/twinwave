@@ -1,6 +1,6 @@
-# File: phtwinwave.py
+# File: twinwave_connector.py
 #
-# Copyright (c) TwinWave, 2022
+# Copyright (c) 2016-2022 Splunk Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -22,8 +22,8 @@ from phantom.action_result import ActionResult
 from phantom.base_connector import BaseConnector
 from phantom.vault import Vault
 
-# Usage of the consts file is recommended
 from phtwinwave import Twinwave
+from twinwave_consts import *
 
 JOB_POLL_INTERVAL = 15
 
@@ -62,11 +62,40 @@ class TwinWaveConnector(BaseConnector):
 
         # Get the asset config from Phantom
         config = self.get_config()
+        config["since"] = self._validate_integers(self, config.get("since"), "since")
 
         # Use the config to initialize fortisiem object to handle connections to the fortisiem server
         self._twinwave = Twinwave(config)
 
         return phantom.APP_SUCCESS
+
+    def _validate_integers(self, action_result, parameter, key, allow_zero=False):
+        """ This method is to check if the provided input parameter value
+        is a non-zero positive integer and returns the integer value of the parameter itself.
+        :param action_result: Action result or BaseConnector object
+        :param parameter: input parameter
+        :return: integer value of the parameter or None in case of failure
+        """
+
+        if parameter is not None:
+            try:
+                if not float(parameter).is_integer():
+                    action_result.set_status(phantom.APP_ERROR, TWINWAVE_VALIDATE_INTEGER_MESSAGE.format(key=key))
+                    return None
+                parameter = int(parameter)
+
+            except Exception:
+                action_result.set_status(phantom.APP_ERROR, TWINWAVE_VALIDATE_INTEGER_MESSAGE.format(key=key))
+                return None
+
+            if parameter < 0:
+                action_result.set_status(phantom.APP_ERROR, "Please provide a valid non-negative integer value in the {} parameter".format(key))
+                return None
+            if not allow_zero and parameter == 0:
+                action_result.set_status(phantom.APP_ERROR, "Please provide non-zero positive integer in {}".format(key))
+                return None
+
+        return parameter
 
     def _add_to_vault(self, data, filename):
         # this temp directory uses "V" since this function is from the CLASS instance not the same as the "v" vault instance
@@ -105,8 +134,8 @@ class TwinWaveConnector(BaseConnector):
         self.save_progress("Connecting to endpoint")
 
         should_wait = params.get("wait")
-        timeout_in_minutes = params.get("timeout")
-        job_id = params.get("job_id")
+        timeout_in_minutes = self._validate_integers(action_result, params.get("timeout"), "timeout")
+        job_id = params["job_id"]
 
         try:
             if should_wait:
@@ -120,8 +149,7 @@ class TwinWaveConnector(BaseConnector):
             return action_result.get_status()
 
         action_result.add_data(job_fore)
-        self.save_progress("Job Normal Forensics Retrieved")
-        return action_result.set_status(phantom.APP_SUCCESS)
+        return action_result.set_status(phantom.APP_SUCCESS, "Job normal forensics retrieved")
 
     def _handle_twinwave_submit_file(self, params):
 
@@ -149,8 +177,7 @@ class TwinWaveConnector(BaseConnector):
         submit_data["AppURL"] = "https://app.twinwave.io/job/{}".format(submit_data.get("JobID"))
         action_result.add_data(submit_data)
         self.debug_print("results", dump_object=submit_data)
-        self.save_progress("Submitted File")
-        return action_result.set_status(phantom.APP_SUCCESS)
+        return action_result.set_status(phantom.APP_SUCCESS, "Submitted file")
 
     def _handle_twinwave_submit_url(self, params):
 
@@ -173,8 +200,7 @@ class TwinWaveConnector(BaseConnector):
         submit_data["AppURL"] = "https://app.twinwave.io/job/{}".format(submit_data.get("JobID"))
         action_result.add_data(submit_data)
         self.debug_print("results", dump_object=submit_data)
-        self.save_progress("Submitted URL")
-        return action_result.set_status(phantom.APP_SUCCESS)
+        return action_result.set_status(phantom.APP_SUCCESS, "Submitted URL")
 
     def _handle_get_engines(self, params):
 
@@ -207,15 +233,16 @@ class TwinWaveConnector(BaseConnector):
         # parameter count uses start at 100 if applicable if not start at 0
         # paremter pull for "DONE" jobs
         try:
-            list = self._twinwave.get_recent_jobs(params)
+            list = self._twinwave.get_recent_jobs()
 
+            action_result.append_to_message("Gathered recent jobs")
+            action_result.update_summary({"job_count": len(list)})
         except Exception as e:
             self.save_progress(str(e))
             self.save_progress("Unable to get jobs")
             return action_result.get_status()
 
         action_result.add_data(list)
-        self.save_progress("Gathered Recent Jobs")
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_on_poll(self, params):
@@ -318,8 +345,8 @@ class TwinWaveConnector(BaseConnector):
         self.save_progress("Connecting to endpoint")
 
         should_wait = params.get("wait")
-        timeout_in_minutes = params.get("timeout")
-        job_id = params.get("job_id")
+        timeout_in_minutes = self._validate_integers(action_result, params.get("timeout"), "timeout")
+        job_id = params["job_id"]
 
         self.debug_print(
             "Getting summary for job ID: {}, wait: {}, timeout: {}".format(params.get("job_id"), params.get("wait"), params.get("timeout"))
@@ -360,12 +387,14 @@ class TwinWaveConnector(BaseConnector):
             pdf_data = self._twinwave.download_job_pdf(job_id)
 
             self._add_to_vault(data=pdf_data, filename=f"TwinWave job report {job_id}.pdf")
+
+            action_result.append_to_message("Attached PDF report")
         except Exception as e:
             self.save_progress(str(e))
             self.save_progress("Unable to get PDF report")
             return action_result.set_status(phantom.APP_ERROR)
 
-        return action_result.set_status(phantom.APP_SUCCESS)
+        return action_result.set_status(phantom.APP_SUCCESS, "Successfully attached PDF report")
 
     def _handle_twinwave_get_job_screenshots(self, params):
 
@@ -397,7 +426,7 @@ class TwinWaveConnector(BaseConnector):
             screenshot_count = len(forensics.get("Screenshots", []))
 
             action_result.append_to_message(f"Attached {screenshot_count} screenshots")
-            action_result.update_summary({"screenshot count": screenshot_count})
+            action_result.update_summary({"screenshot_count": screenshot_count})
             action_result.add_data({"screenshot_count": screenshot_count})
         except Exception as e:
             self.save_progress(str(e))
