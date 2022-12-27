@@ -118,11 +118,11 @@ class TwinWaveConnector(BaseConnector):
             # the call to the 3rd party device or service failed
             # action result should contain all the error details so just return from here
             self.save_progress(str(e))
-            self.save_progress("Test Connectivity Failed.")
-            return action_result.get_status()
+            self.save_progress("Test Connectivity Failed")
+            return action_result.set_status(phantom.APP_ERROR)
 
         # Return success
-        self.save_progress("Test Connectivity Passed.")
+        self.save_progress("Test Connectivity Passed")
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_twinwave_get_job_normalized_forensics(self, params):
@@ -145,8 +145,7 @@ class TwinWaveConnector(BaseConnector):
 
         except Exception as e:
             self.save_progress(str(e))
-            self.save_progress("Unable to retrieve forensics")
-            return action_result.get_status()
+            return action_result.set_status(phantom.APP_ERROR, "Unable to retrieve forensics")
 
         action_result.add_data(job_fore)
         return action_result.set_status(phantom.APP_SUCCESS, "Job normal forensics retrieved")
@@ -171,8 +170,7 @@ class TwinWaveConnector(BaseConnector):
             submit_data = self._twinwave.submit_file(file_name, file_data)
         except Exception as err:
             self.save_progress(str(err))
-            self.save_progress("Unable to submit file")
-            return action_result.set_status(phantom.APP_ERROR)
+            return action_result.set_status(phantom.APP_ERROR, "Unable to submit file")
 
         submit_data["AppURL"] = "https://app.twinwave.io/job/{}".format(submit_data.get("JobID"))
         action_result.add_data(submit_data)
@@ -194,8 +192,7 @@ class TwinWaveConnector(BaseConnector):
             submit_data = self._twinwave.submit_url(url)
         except Exception as e:
             self.save_progress(str(e))
-            self.save_progress("Unable to submit url")
-            return action_result.set_status(phantom.APP_ERROR)
+            return action_result.set_status(phantom.APP_ERROR, "Unable to submit url")
 
         submit_data["AppURL"] = "https://app.twinwave.io/job/{}".format(submit_data.get("JobID"))
         action_result.add_data(submit_data)
@@ -213,8 +210,7 @@ class TwinWaveConnector(BaseConnector):
 
         except Exception as e:
             self.save_progress(str(e))
-            self.save_progress("Unable to get engines")
-            return action_result.get_status()
+            return action_result.set_status(phantom.APP_ERROR, "Unable to get engines")
 
         action_result.add_data(response)
         self.save_progress("Submitted URL")
@@ -239,8 +235,7 @@ class TwinWaveConnector(BaseConnector):
             action_result.update_summary({"job_count": len(list)})
         except Exception as e:
             self.save_progress(str(e))
-            self.save_progress("Unable to get jobs")
-            return action_result.get_status()
+            return action_result.set_status(phantom.APP_ERROR, "Unable to get jobs")
 
         action_result.add_data(list)
         return action_result.set_status(phantom.APP_SUCCESS)
@@ -256,8 +251,7 @@ class TwinWaveConnector(BaseConnector):
             payload = self._twinwave.poll_for_done_jobs(next_token)
         except Exception as e:
             self.save_progress(str(e))
-            self.save_progress("Unable to get jobs")
-            return action_result.get_status()
+            return action_result.set_status(phantom.APP_ERROR, "Unable to get jobs")
         jobs = payload.get("Jobs")
         if jobs:
             for job in jobs:
@@ -391,8 +385,7 @@ class TwinWaveConnector(BaseConnector):
             action_result.append_to_message("Attached PDF report")
         except Exception as e:
             self.save_progress(str(e))
-            self.save_progress("Unable to get PDF report")
-            return action_result.set_status(phantom.APP_ERROR)
+            return action_result.set_status(phantom.APP_ERROR, "Unable to get PDF report")
 
         return action_result.set_status(phantom.APP_SUCCESS, "Successfully attached PDF report")
 
@@ -430,8 +423,7 @@ class TwinWaveConnector(BaseConnector):
             action_result.add_data({"screenshot_count": screenshot_count})
         except Exception as e:
             self.save_progress(str(e))
-            self.save_progress("Unable to download screenshots")
-            return action_result.set_status(phantom.APP_ERROR)
+            return action_result.set_status(phantom.APP_ERROR, "Unable to download screenshots")
 
         return action_result.set_status(phantom.APP_SUCCESS)
 
