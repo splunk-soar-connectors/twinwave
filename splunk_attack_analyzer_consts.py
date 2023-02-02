@@ -1,6 +1,6 @@
-# File: twinwave_consts.py
+# File: splunk_attack_analyzer_consts.py
 #
-# Copyright (c) 2016-2022 Splunk Inc.
+# Copyright (c) 2016-2023 Splunk Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,4 +13,4 @@
 # either express or implied. See the License for the specific language governing permissions
 # and limitations under the License.
 
-TWINWAVE_VALIDATE_INTEGER_MESSAGE = "Please provide a valid integer value in the {key} parameter"
+SPLUNK_ATTACK_ANALYZER_VALIDATE_INTEGER_MESSAGE = "Please provide a valid integer value in the {key} parameter"

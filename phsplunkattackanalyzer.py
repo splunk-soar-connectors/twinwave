@@ -1,6 +1,6 @@
-# File: phtwinwave.py
+# File: phsplunkattackanalyzer.py
 #
-# Copyright (c) 2016-2022 Splunk Inc.
+# Copyright (c) 2016-2023 Splunk Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ class AuthenticationException(Exception):
     pass
 
 
-class Twinwave:
+class SplunkAttackAnalyzer:
     def __init__(self, config):
         self._host = f"{API_HOST}/{API_VERSION}"
         self._base_url = "https://app.twinwave.io/"

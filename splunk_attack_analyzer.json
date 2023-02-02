@@ -1,27 +1,25 @@
 {
     "appid": "507379b9-c12c-4b1e-8124-8ebf0c3eee53",
-    "name": "TwinWave",
+    "name": "Splunk Attack Analyzer",
     "description": "A threat analysis platform to reduce the friction of repetitive manual tasks typically associated with investigating threats",
     "type": "investigative",
-    "product_vendor": "TwinWave",
-    "logo": "logo_twinwave.svg",
-    "logo_dark": "logo_twinwave_dark.svg",
-    "product_name": "TwinWave",
+    "product_vendor": "Splunk Attack Analyzer",
+    "logo": "splunk_attack_analyzer.svg",
+    "logo_dark": "logo_splunk_attack_analyzer_dark.svg",
+    "product_name": "Splunk Attack Analyzer",
     "python_version": "3",
     "product_version_regex": ".*",
     "publisher": "Splunk",
-    "contributors": [
-        {
-            "name": "Bryan Burns"
-        }
-    ],
+    "contributors": [{
+        "name": "Bryan Burns"
+    }],
     "license": "Copyright (c) 2016-2022 Splunk Inc.",
     "latest_tested_versions": "",
     "fips_compliant": false,
     "app_version": "1.1.0",
     "utctime_updated": "2022-01-31T21:58:52.481735Z",
-    "package_name": "phantom_twinwave",
-    "main_module": "twinwave_connector.py",
+    "package_name": "phantom_splunk_attack_analyzer",
+    "main_module": "splunk_attack_analyzer_connector.py",
     "min_phantom_version": "5.3.5",
     "app_wizard_version": "1.0.0",
     "configuration": {
@@ -38,8 +36,7 @@
             "verbose": "If not specified, the default is past 3 days."
         }
     },
-    "actions": [
-        {
+    "actions": [{
             "action": "test connectivity",
             "identifier": "test_connectivity",
             "description": "Validate the asset configuration for connectivity using supplied configuration",
@@ -83,8 +80,7 @@
                     "description": "Maximum number of artifact records to query for"
                 }
             },
-            "output": [
-                {
+            "output": [{
                     "data_path": "action_result.data",
                     "data_type": "string"
                 },
@@ -142,7 +138,7 @@
         },
         {
             "action": "get job forensics",
-            "identifier": "twinwave_get_job_normalized_forensics",
+            "identifier": "splunk_attack_analyzer_get_job_normalized_forensics",
             "description": "Get the consolidated forensics for a completed job",
             "type": "generic",
             "read_only": false,
@@ -153,7 +149,7 @@
                     "required": true,
                     "primary": true,
                     "contains": [
-                        "twinwave job id"
+                        "splunk attack analyzer job id"
                     ],
                     "order": 0
                 },
@@ -170,8 +166,7 @@
                     "order": 2
                 }
             },
-            "output": [
-                {
+            "output": [{
                     "data_path": "action_result.status",
                     "data_type": "string",
                     "example_values": [
@@ -183,7 +178,7 @@
                     "data_path": "action_result.parameter.job_id",
                     "data_type": "string",
                     "contains": [
-                        "twinwave job id"
+                        "splunk attack analyzer job id"
                     ],
                     "example_values": [
                         "63572265-c5ae-402f-9fc1-6c90547482ee"
@@ -1939,7 +1934,7 @@
         },
         {
             "action": "get job summary",
-            "identifier": "twinwave_get_job_summary",
+            "identifier": "splunk_attack_analyzer_get_job_summary",
             "description": "Get a job summary",
             "type": "generic",
             "read_only": false,
@@ -1950,7 +1945,7 @@
                     "required": true,
                     "primary": true,
                     "contains": [
-                        "twinwave job id"
+                        "splunk attack analyzer job id"
                     ],
                     "order": 0
                 },
@@ -1967,8 +1962,7 @@
                     "order": 2
                 }
             },
-            "output": [
-                {
+            "output": [{
                     "data_path": "action_result.status",
                     "data_type": "string",
                     "example_values": [
@@ -1980,7 +1974,7 @@
                     "data_path": "action_result.parameter.job_id",
                     "data_type": "string",
                     "contains": [
-                        "twinwave job id"
+                        "splunk attack analyzer job id"
                     ],
                     "example_values": [
                         "63572265-c5ae-402f-9fc1-6c90547482ee"
@@ -2870,20 +2864,19 @@
                 "type": "custom",
                 "width": 6,
                 "height": 6,
-                "view": "twinwave_view.job_summary",
-                "title": "TwinWave Job Summary"
+                "view": "splunk_attack_analyzer_view.job_summary",
+                "title": "Splunk Attack Analyzer Job Summary"
             },
             "versions": "EQ(*)"
         },
         {
             "action": "list recent jobs",
-            "identifier": "twinwave_list_recent_jobs",
+            "identifier": "splunk_attack_analyzer_list_recent_jobs",
             "description": "Get a list of recent jobs",
             "type": "generic",
             "read_only": false,
             "parameters": {},
-            "output": [
-                {
+            "output": [{
                     "data_path": "action_result.status",
                     "data_type": "string",
                     "example_values": [
@@ -3535,7 +3528,7 @@
         },
         {
             "action": "detonate file",
-            "identifier": "twinwave_submit_file",
+            "identifier": "splunk_attack_analyzer_submit_file",
             "description": "Submit File for Scanning",
             "type": "investigate",
             "read_only": false,
@@ -3551,8 +3544,7 @@
                     "order": 0
                 }
             },
-            "output": [
-                {
+            "output": [{
                     "data_path": "action_result.status",
                     "data_type": "string",
                     "example_values": [
@@ -3585,7 +3577,7 @@
                     "data_path": "action_result.data.*.JobID",
                     "data_type": "string",
                     "contains": [
-                        "twinwave job id"
+                        "splunk attack analyzer job id"
                     ],
                     "column_name": "Job ID",
                     "column_order": 1
@@ -3631,7 +3623,7 @@
         },
         {
             "action": "detonate url",
-            "identifier": "twinwave_submit_url",
+            "identifier": "splunk_attack_analyzer_submit_url",
             "description": "Submit New URL for Scanning",
             "type": "investigate",
             "read_only": false,
@@ -3647,8 +3639,7 @@
                     "order": 0
                 }
             },
-            "output": [
-                {
+            "output": [{
                     "data_path": "action_result.status",
                     "data_type": "string",
                     "example_values": [
@@ -3681,7 +3672,7 @@
                     "data_path": "action_result.data.*.JobID",
                     "data_type": "string",
                     "contains": [
-                        "twinwave job id"
+                        "splunk attack analyzer job id"
                     ],
                     "column_name": "Job ID",
                     "column_order": 1
@@ -3727,7 +3718,7 @@
         },
         {
             "action": "get pdf report",
-            "identifier": "twinwave_get_job_pdf",
+            "identifier": "splunk_attack_analyzer_get_job_pdf",
             "description": "Get the PDF report for a completed job",
             "type": "generic",
             "read_only": false,
@@ -3738,7 +3729,7 @@
                     "required": true,
                     "primary": true,
                     "contains": [
-                        "twinwave job id"
+                        "splunk attack analyzer job id"
                     ],
                     "order": 0
                 },
@@ -3755,8 +3746,7 @@
                     "order": 2
                 }
             },
-            "output": [
-                {
+            "output": [{
                     "data_path": "action_result.status",
                     "data_type": "string",
                     "column_name": "Status",
@@ -3770,7 +3760,7 @@
                     "data_path": "action_result.parameter.job_id",
                     "data_type": "string",
                     "contains": [
-                        "twinwave job id"
+                        "splunk attack analyzer job id"
                     ],
                     "example_values": [
                         "63572265-c5ae-402f-9fc1-6c90547482ee"
@@ -3828,7 +3818,7 @@
         },
         {
             "action": "get job screenshots",
-            "identifier": "twinwave_get_job_screenshots",
+            "identifier": "splunk_attack_analyze_get_job_screenshots",
             "description": "Get screenshots for the specified job and store them in the vault",
             "type": "generic",
             "read_only": false,
@@ -3839,7 +3829,7 @@
                     "required": true,
                     "primary": true,
                     "contains": [
-                        "twinwave job id"
+                        "splunk attack analyzer job id"
                     ],
                     "order": 0
                 },
@@ -3856,8 +3846,7 @@
                     "order": 2
                 }
             },
-            "output": [
-                {
+            "output": [{
                     "data_path": "action_result.status",
                     "data_type": "string",
                     "column_name": "Status",
@@ -3871,7 +3860,7 @@
                     "data_path": "action_result.parameter.job_id",
                     "data_type": "string",
                     "contains": [
-                        "twinwave job id"
+                        "splunk attack analyzer job id"
                     ],
                     "example_values": [
                         "63572265-c5ae-402f-9fc1-6c90547482ee"
@@ -3945,8 +3934,7 @@
         }
     ],
     "pip_dependencies": {
-        "wheel": [
-            {
+        "wheel": [{
                 "module": "certifi",
                 "input_file": "wheels/py3/certifi-2022.12.7-py3-none-any.whl"
             },
