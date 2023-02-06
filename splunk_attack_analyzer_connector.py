@@ -100,7 +100,7 @@ class SplunkAttackAnalyzerConnector(BaseConnector):
     def _add_to_vault(self, data, filename):
         # this temp directory uses "V" since this function is from the CLASS instance not the same as the "v" vault instance
         container_id = self.get_container_id()
-        Vault.create_attachment(data, container_id, file_name=filename)
+        return Vault.create_attachment(data, container_id, file_name=filename)
 
     def _handle_test_connectivity(self, param):
 
@@ -133,8 +133,8 @@ class SplunkAttackAnalyzerConnector(BaseConnector):
 
         self.save_progress("Connecting to endpoint")
 
-        should_wait = params.get("wait")
-        timeout_in_minutes = self._validate_integers(action_result, params.get("timeout"), "timeout")
+        should_wait = params.get("wait", True)
+        timeout_in_minutes = self._validate_integers(action_result, params.get("timeout", 30), "timeout")
         job_id = params["job_id"]
 
         try:
@@ -338,8 +338,8 @@ class SplunkAttackAnalyzerConnector(BaseConnector):
 
         self.save_progress("Connecting to endpoint")
 
-        should_wait = params.get("wait")
-        timeout_in_minutes = self._validate_integers(action_result, params.get("timeout"), "timeout")
+        should_wait = params.get("wait", True)
+        timeout_in_minutes = self._validate_integers(action_result, params.get("timeout", 30), "timeout")
         job_id = params["job_id"]
 
         self.debug_print(
@@ -348,12 +348,12 @@ class SplunkAttackAnalyzerConnector(BaseConnector):
 
         job_summary = self._get_job_data(job_id, should_wait, timeout_in_minutes)
         if not job_summary:
-            return action_result.set_status(phantom.APP_ERROR)
+            return action_result.set_status(phantom.APP_ERROR, "Job not found")
 
         job_summary["ResourceTree"] = _make_resource_tree(job_summary["Resources"])
 
         action_result.add_data(job_summary)
-        action_result.update_summary({"JobID": job_id, "Score": job_summary.get("DisplayScore"), "Verdict": job_summary.get("Verdict")})
+        action_result.update_summary({"JobID": job_id, "Score": job_summary.get("DisplayScore")})
 
         self.save_progress("Job Summary Retrieved")
 
@@ -367,21 +367,22 @@ class SplunkAttackAnalyzerConnector(BaseConnector):
 
         self.save_progress("Connecting to endpoint")
 
-        should_wait = params.get("wait")
-        timeout_in_minutes = params.get("timeout")
+        should_wait = params.get("wait", True)
+        timeout_in_minutes = self._validate_integers(action_result, params.get("timeout", 30), "timeout")
         job_id = params.get("job_id")
 
         if should_wait:
             # do this just to make sure the job is completed
             job_summary = self._get_job_data(job_id, should_wait, timeout_in_minutes)
             if not job_summary:
-                return action_result.set_status(phantom.APP_ERROR)
+                return action_result.set_status(phantom.APP_ERROR, "Job not found")
 
         try:
             pdf_data = self._splunkattackanalyzer.download_job_pdf(job_id)
 
-            self._add_to_vault(data=pdf_data, filename=f"Splunk Attack Analyzer job report {job_id}.pdf")
-
+            vault_detail = self._add_to_vault(data=pdf_data, filename=f"Splunk Attack Analyzer job report {job_id}.pdf")
+            vault_detail["file_name"] = f"Splunk Attack Analyzer job report {job_id}.pdf"
+            action_result.add_data(vault_detail)
             action_result.append_to_message("Attached PDF report")
         except Exception as e:
             self.save_progress(str(e))
@@ -397,15 +398,15 @@ class SplunkAttackAnalyzerConnector(BaseConnector):
 
         self.save_progress("Connecting to endpoint")
 
-        should_wait = params.get("wait")
-        timeout_in_minutes = params.get("timeout")
+        should_wait = params.get("wait", True)
+        timeout_in_minutes = self._validate_integers(action_result, params.get("timeout", 30), "timeout")
         job_id = params.get("job_id")
 
         if should_wait:
             # do this just to make sure the job is completed
             job_summary = self._get_job_data(job_id, should_wait, timeout_in_minutes)
             if not job_summary:
-                return action_result.set_status(phantom.APP_ERROR)
+                return action_result.set_status(phantom.APP_ERROR, "Job not found")
 
         try:
             forensics = self._splunkattackanalyzer.get_job_normalized_forensics(job_id)
@@ -414,13 +415,14 @@ class SplunkAttackAnalyzerConnector(BaseConnector):
                 self.save_progress(f"Downloading screenshot #{i}")
 
                 shot_data = self._splunkattackanalyzer.download_artifact(ss["ArtifactPath"])
-                self._add_to_vault(shot_data, f"Splunk Attack Analyzer screenshot #{i}.png")
+                vault_detail = self._add_to_vault(shot_data, f"Splunk Attack Analyzer screenshot #{i}.png")
+                vault_detail["file_name"] = f"Splunk Attack Analyzer screenshot #{i}.png"
+                action_result.add_data(vault_detail)
 
             screenshot_count = len(forensics.get("Screenshots", []))
 
             action_result.append_to_message(f"Attached {screenshot_count} screenshots")
             action_result.update_summary({"screenshot_count": screenshot_count})
-            action_result.add_data({"screenshot_count": screenshot_count})
         except Exception as e:
             self.save_progress(str(e))
             return action_result.set_status(phantom.APP_ERROR, "Unable to download screenshots")
