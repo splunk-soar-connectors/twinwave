@@ -140,7 +140,7 @@
             "action": "get job forensics",
             "identifier": "splunk_attack_analyzer_get_job_normalized_forensics",
             "description": "Get the consolidated forensics for a completed job",
-            "type": "generic",
+            "type": "investigate",
             "read_only": false,
             "parameters": {
                 "job_id": {
@@ -2673,7 +2673,7 @@
                 }
             ],
             "render": {
-                "type": "table"
+                "type": "json"
             },
             "versions": "EQ(*)"
         },
@@ -2681,7 +2681,7 @@
             "action": "get job summary",
             "identifier": "splunk_attack_analyzer_get_job_summary",
             "description": "Get a job summary",
-            "type": "generic",
+            "type": "investigate",
             "read_only": false,
             "parameters": {
                 "job_id": {
@@ -4902,7 +4902,7 @@
             "action": "get pdf report",
             "identifier": "splunk_attack_analyzer_get_job_pdf",
             "description": "Get the PDF report for a completed job",
-            "type": "generic",
+            "type": "investigate",
             "read_only": false,
             "parameters": {
                 "job_id": {
@@ -5073,7 +5073,7 @@
             "action": "get job screenshots",
             "identifier": "splunk_attack_analyzer_get_job_screenshots",
             "description": "Get screenshots for the specified job and store them in the vault",
-            "type": "generic",
+            "type": "investigate",
             "read_only": false,
             "parameters": {
                 "job_id": {
