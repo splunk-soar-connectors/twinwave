@@ -1,4 +1,4 @@
-# File: splunk_attack_analyzer_consts.py
+# File: splunkattackanalyzer_consts.py
 #
 # Copyright (c) 2016-2023 Splunk Inc.
 #
@@ -13,4 +13,4 @@
 # either express or implied. See the License for the specific language governing permissions
 # and limitations under the License.
 
-SPLUNK_ATTACK_ANALYZER_VALIDATE_INTEGER_MESSAGE = "Please provide a valid integer value in the {key} parameter"
+SPLUNK_ATTACK_ANALYZER_VALIDATE_INTEGER_MESSAGE = "Please provide a valid integer value in the '{0}' parameter"

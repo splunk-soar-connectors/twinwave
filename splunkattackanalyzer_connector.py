@@ -1,4 +1,4 @@
-# File: splunk_attack_analyzer_connector.py
+# File: splunkattackanalyzer_connector.py
 #
 # Copyright (c) 2016-2023 Splunk Inc.
 #
@@ -23,7 +23,7 @@ from phantom.base_connector import BaseConnector
 from phantom.vault import Vault
 
 from phsplunkattackanalyzer import SplunkAttackAnalyzer
-from splunk_attack_analyzer_consts import *
+from splunkattackanalyzer_consts import *
 
 JOB_POLL_INTERVAL = 15
 
@@ -70,32 +70,23 @@ class SplunkAttackAnalyzerConnector(BaseConnector):
         return phantom.APP_SUCCESS
 
     def _validate_integers(self, action_result, parameter, key, allow_zero=False):
-        """ This method is to check if the provided input parameter value
-        is a non-zero positive integer and returns the integer value of the parameter itself.
-        :param action_result: Action result or BaseConnector object
-        :param parameter: input parameter
-        :return: integer value of the parameter or None in case of failure
-        """
+        try:
+            if not float(parameter).is_integer():
+                return action_result.set_status(
+                    phantom.APP_ERROR, SPLUNK_ATTACK_ANALYZER_VALIDATE_INTEGER_MESSAGE.format(key)), None
 
-        if parameter is not None:
-            try:
-                if not float(parameter).is_integer():
-                    action_result.set_status(phantom.APP_ERROR, SPLUNK_ATTACK_ANALYZER_VALIDATE_INTEGER_MESSAGE.format(key=key))
-                    return None
-                parameter = int(parameter)
+            parameter = int(parameter)
+        except Exception:
+            return action_result.set_status(phantom.APP_ERROR, SPLUNK_ATTACK_ANALYZER_VALIDATE_INTEGER_MESSAGE.format(key)), None
 
-            except Exception:
-                action_result.set_status(phantom.APP_ERROR, SPLUNK_ATTACK_ANALYZER_VALIDATE_INTEGER_MESSAGE.format(key=key))
-                return None
+        if not allow_zero and parameter <= 0:
+            return action_result.set_status(
+                phantom.APP_ERROR, "Please provide a non-zero positive integer in the '{0}' parameter".format(key)), None
+        elif allow_zero and parameter < 0:
+            return action_result.set_status(
+                phantom.APP_ERROR, "Please provide a valid non-negative integer value in the '{0}' parameter".format(key)), None
 
-            if parameter < 0:
-                action_result.set_status(phantom.APP_ERROR, "Please provide a valid non-negative integer value in the {} parameter".format(key))
-                return None
-            if not allow_zero and parameter == 0:
-                action_result.set_status(phantom.APP_ERROR, "Please provide non-zero positive integer in {}".format(key))
-                return None
-
-        return parameter
+        return phantom.APP_SUCCESS, parameter
 
     def _add_to_vault(self, data, filename):
         # this temp directory uses "V" since this function is from the CLASS instance not the same as the "v" vault instance

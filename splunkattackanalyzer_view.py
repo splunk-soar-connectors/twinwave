@@ -1,4 +1,4 @@
-# File: splunk_attack_analyzer_view.py
+# File: splunkattackanalyzer_view.py
 #
 # Copyright (c) 2016-2023 Splunk Inc.
 #
