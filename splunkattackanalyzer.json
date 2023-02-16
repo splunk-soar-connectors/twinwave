@@ -1,11 +1,11 @@
 {
-    "appid": "507379b9-c12c-4b1e-8124-8ebf0c3eee53",
+    "appid": "de681fee-c552-45bf-9212-827b1c7529f8",
     "name": "Splunk Attack Analyzer",
     "description": "A threat analysis platform to reduce the friction of repetitive manual tasks typically associated with investigating threats",
     "type": "investigative",
-    "product_vendor": "Splunk Attack Analyzer",
-    "logo": "splunk_attack_analyzer.svg",
-    "logo_dark": "logo_splunk_attack_analyzer_dark.svg",
+    "product_vendor": "Splunk",
+    "logo": "logo_splunkattackanalyzer.png",
+    "logo_dark": "logo_splunkattackanalyzer_dark.png",
     "product_name": "Splunk Attack Analyzer",
     "python_version": "3",
     "product_version_regex": ".*",
@@ -16,10 +16,10 @@
     "license": "Copyright (c) 2016-2022 Splunk Inc.",
     "latest_tested_versions": "",
     "fips_compliant": false,
-    "app_version": "1.1.0",
+    "app_version": "1.0.0",
     "utctime_updated": "2022-01-31T21:58:52.481735Z",
     "package_name": "phantom_splunk_attack_analyzer",
-    "main_module": "splunk_attack_analyzer_connector.py",
+    "main_module": "splunkattackanalyzer_connector.py",
     "min_phantom_version": "5.3.5",
     "app_wizard_version": "1.0.0",
     "configuration": {
@@ -4028,7 +4028,7 @@
                 "type": "custom",
                 "width": 6,
                 "height": 6,
-                "view": "splunk_attack_analyzer_view.job_summary",
+                "view": "splunkattackanalyzer_view.job_summary",
                 "title": "Splunk Attack Analyzer Job Summary"
             },
             "versions": "EQ(*)"

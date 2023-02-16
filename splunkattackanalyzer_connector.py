@@ -47,6 +47,32 @@ def _make_resource_tree(resources):
     return root
 
 
+def _validate_integer(action_result, parameter, key, allow_zero=False):
+    """
+    Validate an integer.
+    :param action_result: Action result or BaseConnector object
+    :param parameter: input parameter
+    :param key: input parameter message key
+    :allow_zero: whether zero should be considered as valid value or not
+    :return: status phantom.APP_ERROR/phantom.APP_SUCCESS, integer value of the parameter or None in case of failure
+    """
+    if parameter is not None:
+        try:
+            if not float(parameter).is_integer():
+                return action_result.set_status(phantom.APP_ERROR, SPLUNK_ATTACK_ANALYZER_VALIDATE_INTEGER_MESSAGE.format(param=key)), None
+
+            parameter = int(parameter)
+        except Exception:
+            return action_result.set_status(phantom.APP_ERROR, SPLUNK_ATTACK_ANALYZER_VALIDATE_INTEGER_MESSAGE.format(param=key)), None
+
+        if parameter < 0:
+            return action_result.set_status(phantom.APP_ERROR, SPLUNK_ATTACK_ANALYZER_VALIDATE_INTEGER_MESSAGE.format(param=key)), None
+        if not allow_zero and parameter == 0:
+            return action_result.set_status(phantom.APP_ERROR, SPLUNK_ATTACK_ANALYZER_VALIDATE_INTEGER_MESSAGE.format(param=key)), None
+
+    return phantom.APP_SUCCESS, parameter
+
+
 class SplunkAttackAnalyzerConnector(BaseConnector):
     def __init__(self):
 
@@ -62,31 +88,14 @@ class SplunkAttackAnalyzerConnector(BaseConnector):
 
         # Get the asset config from Phantom
         config = self.get_config()
-        config["since"] = self._validate_integers(self, config.get("since"), "since")
+        ret_val, config["since"] = _validate_integer(self, config.get("since"), "since")
+        if phantom.is_fail(ret_val):
+            return self.get_status()
 
         # Use the config to initialize fortisiem object to handle connections to the fortisiem server
         self._splunkattackanalyzer = SplunkAttackAnalyzer(config)
 
         return phantom.APP_SUCCESS
-
-    def _validate_integers(self, action_result, parameter, key, allow_zero=False):
-        try:
-            if not float(parameter).is_integer():
-                return action_result.set_status(
-                    phantom.APP_ERROR, SPLUNK_ATTACK_ANALYZER_VALIDATE_INTEGER_MESSAGE.format(key)), None
-
-            parameter = int(parameter)
-        except Exception:
-            return action_result.set_status(phantom.APP_ERROR, SPLUNK_ATTACK_ANALYZER_VALIDATE_INTEGER_MESSAGE.format(key)), None
-
-        if not allow_zero and parameter <= 0:
-            return action_result.set_status(
-                phantom.APP_ERROR, "Please provide a non-zero positive integer in the '{0}' parameter".format(key)), None
-        elif allow_zero and parameter < 0:
-            return action_result.set_status(
-                phantom.APP_ERROR, "Please provide a valid non-negative integer value in the '{0}' parameter".format(key)), None
-
-        return phantom.APP_SUCCESS, parameter
 
     def _add_to_vault(self, data, filename):
         # this temp directory uses "V" since this function is from the CLASS instance not the same as the "v" vault instance
@@ -125,7 +134,10 @@ class SplunkAttackAnalyzerConnector(BaseConnector):
         self.save_progress("Connecting to endpoint")
 
         should_wait = params.get("wait", True)
-        timeout_in_minutes = self._validate_integers(action_result, params.get("timeout", 30), "timeout")
+        ret_val, timeout_in_minutes = _validate_integer(action_result, params.get("timeout", 30), "timeout")
+        if phantom.is_fail(ret_val):
+            return action_result.get_status()
+
         job_id = params["job_id"]
 
         try:
@@ -330,7 +342,9 @@ class SplunkAttackAnalyzerConnector(BaseConnector):
         self.save_progress("Connecting to endpoint")
 
         should_wait = params.get("wait", True)
-        timeout_in_minutes = self._validate_integers(action_result, params.get("timeout", 30), "timeout")
+        ret_val, timeout_in_minutes = _validate_integer(action_result, params.get("timeout", 30), "timeout")
+        if phantom.is_fail(ret_val):
+            return action_result.get_status()
         job_id = params["job_id"]
 
         self.debug_print(
@@ -359,7 +373,10 @@ class SplunkAttackAnalyzerConnector(BaseConnector):
         self.save_progress("Connecting to endpoint")
 
         should_wait = params.get("wait", True)
-        timeout_in_minutes = self._validate_integers(action_result, params.get("timeout", 30), "timeout")
+        ret_val, timeout_in_minutes = _validate_integer(action_result, params.get("timeout", 30), "timeout")
+        if phantom.is_fail(ret_val):
+            return action_result.get_status()
+
         job_id = params.get("job_id")
 
         if should_wait:
@@ -390,7 +407,9 @@ class SplunkAttackAnalyzerConnector(BaseConnector):
         self.save_progress("Connecting to endpoint")
 
         should_wait = params.get("wait", True)
-        timeout_in_minutes = self._validate_integers(action_result, params.get("timeout", 30), "timeout")
+        ret_val, timeout_in_minutes = _validate_integer(action_result, params.get("timeout", 30), "timeout")
+        if phantom.is_fail(ret_val):
+            return action_result.get_status()
         job_id = params.get("job_id")
 
         if should_wait:
@@ -428,8 +447,6 @@ class SplunkAttackAnalyzerConnector(BaseConnector):
         action_id = self.get_action_identifier()
 
         self.debug_print("action_id", self.get_action_identifier())
-
-        self.save_progress("action_id={}".format(action_id))
 
         if action_id == "test_connectivity":
             ret_val = self._handle_test_connectivity(param)
