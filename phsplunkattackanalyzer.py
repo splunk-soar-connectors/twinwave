@@ -44,17 +44,35 @@ class SplunkAttackAnalyzer:
 
     def get_recent_jobs(self, num_jobs=10, username=None, source=None, state=None):
         url = f"{self._host}/jobs/recent"
+        jobs_list = list()
         params = {}
-        params["count"] = num_jobs
+        params["start"] = 0
         if username:
             params["username"] = username
         if source:
             params["source"] = source
         if state:
             params["state"] = state
-        resp = requests.get(url, params=params, headers=self.get_header(), verify=self._verify, proxies=self._proxy, timeout=REQUEST_TIMEOUT)
-        resp.raise_for_status()
-        return resp.json()
+
+        if num_jobs >= 100:
+            self.paginate_jobs(num_jobs, params, url, jobs_list)
+
+        if num_jobs % 100 != 0:
+            params["count"] = num_jobs % 100
+            resp = requests.get(url, params=params, headers=self.get_header(), verify=self._verify, proxies=self._proxy, timeout=REQUEST_TIMEOUT)
+            resp.raise_for_status()
+            jobs_list.extend(resp.json())
+
+        return jobs_list
+
+    def paginate_jobs(self, num_jobs, params, url, jobs_list):
+        while num_jobs >= 100:
+            params["count"] = 100
+            resp = requests.get(url, params=params, headers=self.get_header(), verify=self._verify, proxies=self._proxy, timeout=REQUEST_TIMEOUT)
+            resp.raise_for_status()
+            jobs_list.extend(resp.json())
+            params["start"] = params["start"] + 100
+            num_jobs = num_jobs - 100
 
     def poll_for_done_jobs(self, token):
         url = f"{self._host}/jobs/poll"
@@ -64,8 +82,9 @@ class SplunkAttackAnalyzer:
         else:
             since = self._since
             if not since:
-                since = 0
-                epoch_convert_time = time_now.timestamp()
+                since = 24
+                prev_date = time_now - timedelta(hours=since)
+                epoch_convert_time = prev_date.timestamp()
             else:
                 prev_date = time_now - timedelta(hours=since)
                 epoch_convert_time = prev_date.timestamp()

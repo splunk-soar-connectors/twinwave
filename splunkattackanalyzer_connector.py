@@ -59,16 +59,16 @@ def _validate_integer(action_result, parameter, key, allow_zero=False):
     if parameter is not None:
         try:
             if not float(parameter).is_integer():
-                return action_result.set_status(phantom.APP_ERROR, SPLUNK_ATTACK_ANALYZER_VALIDATE_INTEGER_MESSAGE.format(param=key)), None
+                return action_result.set_status(phantom.APP_ERROR, SPLUNK_ATTACK_ANALYZER_VALIDATE_INTEGER_MESSAGE.format(key)), None
 
             parameter = int(parameter)
         except Exception:
-            return action_result.set_status(phantom.APP_ERROR, SPLUNK_ATTACK_ANALYZER_VALIDATE_INTEGER_MESSAGE.format(param=key)), None
+            return action_result.set_status(phantom.APP_ERROR, SPLUNK_ATTACK_ANALYZER_VALIDATE_INTEGER_MESSAGE.format(key)), None
 
         if parameter < 0:
-            return action_result.set_status(phantom.APP_ERROR, SPLUNK_ATTACK_ANALYZER_VALIDATE_INTEGER_MESSAGE.format(param=key)), None
+            return action_result.set_status(phantom.APP_ERROR, SPLUNK_ATTACK_ANALYZER_VALIDATE_INTEGER_MESSAGE.format(key)), None
         if not allow_zero and parameter == 0:
-            return action_result.set_status(phantom.APP_ERROR, SPLUNK_ATTACK_ANALYZER_VALIDATE_INTEGER_MESSAGE.format(param=key)), None
+            return action_result.set_status(phantom.APP_ERROR, SPLUNK_ATTACK_ANALYZER_VALIDATE_INTEGER_MESSAGE.format(key)), None
 
     return phantom.APP_SUCCESS, parameter
 
@@ -225,6 +225,10 @@ class SplunkAttackAnalyzerConnector(BaseConnector):
 
         action_result = self.add_action_result(ActionResult(dict(params)))
 
+        ret_val, limit = _validate_integer(action_result, params.get("limit"), "limit")
+        if phantom.is_fail(ret_val):
+            return action_result.get_status()
+
         self.save_progress("Connecting to endpoint")
         # save_state load_state to get last run job date to reference
         # after save the run now as last run
@@ -232,7 +236,7 @@ class SplunkAttackAnalyzerConnector(BaseConnector):
         # parameter count uses start at 100 if applicable if not start at 0
         # paremter pull for "DONE" jobs
         try:
-            list = self._splunkattackanalyzer.get_recent_jobs()
+            list = self._splunkattackanalyzer.get_recent_jobs(num_jobs=limit)
 
             action_result.append_to_message("Gathered recent jobs")
             action_result.update_summary({"job_count": len(list)})
@@ -425,8 +429,8 @@ class SplunkAttackAnalyzerConnector(BaseConnector):
                 self.save_progress(f"Downloading screenshot #{i}")
 
                 shot_data = self._splunkattackanalyzer.download_artifact(ss["ArtifactPath"])
-                vault_detail = self._add_to_vault(shot_data, f"Splunk Attack Analyzer screenshot #{i}.png")
-                vault_detail["file_name"] = f"Splunk Attack Analyzer screenshot #{i}.png"
+                vault_detail = self._add_to_vault(shot_data, f"Splunk Attack Analyzer screenshot {job_id} #{i}.png")
+                vault_detail["file_name"] = f"Splunk Attack Analyzer screenshot {job_id} #{i}.png"
                 action_result.add_data(vault_detail)
 
             screenshot_count = len(forensics.get("Screenshots", []))
