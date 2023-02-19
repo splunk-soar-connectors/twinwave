@@ -1,10 +1,10 @@
 [comment]: # "Auto-generated SOAR connector documentation"
-# TwinWave
+# Splunk Attack Analyzer
 
-Publisher: TwinWave  
+Publisher: Splunk Attack Analyzer
 Connector Version: 1\.0\.1  
-Product Vendor: TwinWave  
-Product Name: TwinWave  
+Product Vendor: Splunk Attack Analyzer
+Product Name: Splunk Attack Analyzer
 Product Version Supported (regex): "\.\*"  
 Minimum Product Version: 5\.1\.0  
 
@@ -12,7 +12,7 @@ A threat analysis platform to reduce the friction of repetitive manual tasks typ
 
 [comment]: # " File: README.md"
 [comment]: # ""
-[comment]: # "  Copyright (c) TwinWave, 2022"
+[comment]: # "  Copyright (c) Splunk Inc., 2022"
 [comment]: # ""
 [comment]: # "  Licensed under the Apache License, Version 2.0 (the 'License');"
 [comment]: # "  you may not use this file except in compliance with the License."
@@ -25,7 +25,7 @@ A threat analysis platform to reduce the friction of repetitive manual tasks typ
 [comment]: # "  either express or implied. See the License for the specific language governing permissions"
 [comment]: # "  and limitations under the License."
 [comment]: # ""
-### The TwinWave Splunk SOAR app can be used to connect with the [TwinWave analysis platform](https://www.google.com/url?q=https://www.twinwave.io/&sa=D&source=editors&ust=1644536802576291&usg=AOvVaw1QbcnelmQFirXDHIRabB07)
+### The Splunk Attack Analyzer SOAR app can be used to connect with the [Splunk Attack Analyzer analysis platform](https://www.google.com/url?q=https://www.twinwave.io/&sa=D&source=editors&ust=1644536802576291&usg=AOvVaw1QbcnelmQFirXDHIRabB07)
 
 The following actions are supported by the app:
 
@@ -38,7 +38,7 @@ The following actions are supported by the app:
 
 
 ### Configuration Variables
-The below configuration variables are required for this Connector to operate.  These variables are specified when configuring a TwinWave asset in SOAR.
+The below configuration variables are required for this Connector to operate.  These variables are specified when configuring a Splunk Attack Analyzer asset in SOAR.
 
 VARIABLE | REQUIRED | TYPE | DESCRIPTION
 -------- | -------- | ---- | -----------
@@ -107,14 +107,14 @@ Read only: **False**
 #### Action Parameters
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
-**job\_id** |  required  | Job id of the forensics you want pulled | string |  `twinwave job id` 
+**job\_id** |  required  | Job id of the forensics you want pulled | string |  `splunk attack analyzer job id` 
 **wait** |  optional  | Wait for job to finish before returning results | boolean | 
 **timeout** |  optional  | Maximum time \(in minutes\) to wait for job to be complete | numeric | 
 
 #### Action Output
 DATA PATH | TYPE | CONTAINS
 --------- | ---- | --------
-action\_result\.parameter\.job\_id | string |  `twinwave job id` 
+action\_result\.parameter\.job\_id | string |  `splunk attack analyzer job id` 
 action\_result\.parameter\.wait | boolean | 
 action\_result\.parameter\.timeout | numeric | 
 action\_result\.status | string | 
@@ -290,14 +290,14 @@ Read only: **False**
 #### Action Parameters
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
-**job\_id** |  required  | Job id of the job summary you want to fetch | string |  `twinwave job id` 
+**job\_id** |  required  | Job id of the job summary you want to fetch | string |  `splunk attack analyzer job id` 
 **wait** |  optional  | Wait for job to finish before returning results | boolean | 
 **timeout** |  optional  | Maximum time \(in minutes\) to wait for job to be complete | numeric | 
 
 #### Action Output
 DATA PATH | TYPE | CONTAINS
 --------- | ---- | --------
-action\_result\.parameter\.job\_id | string |  `twinwave job id` 
+action\_result\.parameter\.job\_id | string |  `splunk attack analyzer job id` 
 action\_result\.parameter\.wait | boolean | 
 action\_result\.parameter\.timeout | numeric | 
 action\_result\.status | string | 
@@ -306,7 +306,7 @@ summary\.total\_objects | numeric |
 summary\.total\_objects\_successful | numeric | 
 action\_result\.data | string | 
 action\_result\.summary | string | 
-action\_result\.\*\.data\.\*\.ID | string |  `twinwave job id` 
+action\_result\.\*\.data\.\*\.ID | string |  `splunk attack analyzer job id` 
 action\_result\.data\.\*\.Score | numeric | 
 action\_result\.data\.\*\.State | string | 
 action\_result\.data\.\*\.Tasks\.\*\.ID | string | 
@@ -469,7 +469,7 @@ action\_result\.status | string |
 action\_result\.message | string | 
 summary\.total\_objects | numeric | 
 summary\.total\_objects\_successful | numeric | 
-action\_result\.data\.\*\.JobID | string |  `twinwave job id` 
+action\_result\.data\.\*\.JobID | string |  `splunk attack analyzer job id` 
 action\_result\.data\.\*\.QueueDepth | numeric | 
 action\_result\.data\.\*\.QuotaRemaining | numeric | 
 action\_result\.data\.\*\.AppURL | string |  `url` 
@@ -494,7 +494,7 @@ action\_result\.status | string |
 action\_result\.message | string | 
 summary\.total\_objects | numeric | 
 summary\.total\_objects\_successful | numeric | 
-action\_result\.data\.\*\.JobID | string |  `twinwave job id` 
+action\_result\.data\.\*\.JobID | string |  `splunk attack analyzer job id` 
 action\_result\.data\.\*\.QueueDepth | numeric | 
 action\_result\.data\.\*\.QuotaRemaining | numeric | 
 action\_result\.data\.\*\.AppURL | string |  `url` 
@@ -509,14 +509,14 @@ Read only: **False**
 #### Action Parameters
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
-**job\_id** |  required  | Job id of the job summary you want to download the PDF for | string |  `twinwave job id` 
+**job\_id** |  required  | Job id of the job summary you want to download the PDF for | string |  `splunk attack analyzer job id` 
 **wait** |  optional  | Wait for job to finish before returning results | boolean | 
 **timeout** |  optional  | Maximum time \(in minutes\) to wait for job to be complete | numeric | 
 
 #### Action Output
 DATA PATH | TYPE | CONTAINS
 --------- | ---- | --------
-action\_result\.parameter\.job\_id | string |  `twinwave job id` 
+action\_result\.parameter\.job\_id | string |  `splunk attack analyzer job id` 
 action\_result\.parameter\.wait | boolean | 
 action\_result\.parameter\.timeout | numeric | 
 action\_result\.status | string | 
@@ -535,14 +535,14 @@ Read only: **False**
 #### Action Parameters
 PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
-**job\_id** |  required  | Job id of the job summary you want to download the PDF for | string |  `twinwave job id` 
+**job\_id** |  required  | Job id of the job summary you want to download the PDF for | string |  `splunk attack analyzer job id` 
 **wait** |  optional  | Wait for job to finish before returning results | boolean | 
 **timeout** |  optional  | Maximum time \(in minutes\) to wait for job to be complete | numeric | 
 
 #### Action Output
 DATA PATH | TYPE | CONTAINS
 --------- | ---- | --------
-action\_result\.parameter\.job\_id | string |  `twinwave job id` 
+action\_result\.parameter\.job\_id | string |  `splunk attack analyzer job id` 
 action\_result\.parameter\.wait | boolean | 
 action\_result\.parameter\.timeout | numeric | 
 action\_result\.status | string | 

@@ -1,6 +1,6 @@
 <!-- File: job_summary.html
 
-  Copyright (c) TwinWave, 2022
+  Copyright (c) Splunk Inc., 2023
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -95,19 +95,15 @@
       padding-left: 16px;
     }
 
-    a {
-        text-decoration: underline;
-    }
-
 </style>
 
-<div style="overflow: auto; width: 100%; height: 100%; padding-left: 10px; padding-right: 10px;">
+<div class="splunk_attack_analyzer" style="overflow: auto; width: 100%; height: 100%; padding-left: 10px; padding-right: 10px;">
 
   {% for result in results %}
     {% with job=result.data%}
 
         <h2>{{job.Submission.Name}}</h2>
-        <a href="https://app.twinwave.io/job/{{job.ID}}">view in twinwave <i class="fa fa-external-link-square"></i></a>
+        <a href="https://app.twinwave.io/job/{{job.ID}}">view in splunk attack analyzer <i class="fa fa-external-link-square"></i></a>
         <table class="jobmeta">
             <tbody>
                 <tr>

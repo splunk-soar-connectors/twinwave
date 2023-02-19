@@ -1,6 +1,6 @@
-# File: phtwinwave.py
+# File: splunkattackanalyzer_connector.py
 #
-# Copyright (c) TwinWave, 2022
+# Copyright (c) 2016-2023 Splunk Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -22,8 +22,8 @@ from phantom.action_result import ActionResult
 from phantom.base_connector import BaseConnector
 from phantom.vault import Vault
 
-# Usage of the consts file is recommended
-from phtwinwave import Twinwave
+from phsplunkattackanalyzer import SplunkAttackAnalyzer
+from splunkattackanalyzer_consts import *
 
 JOB_POLL_INTERVAL = 15
 
@@ -47,11 +47,37 @@ def _make_resource_tree(resources):
     return root
 
 
-class TwinWaveConnector(BaseConnector):
+def _validate_integer(action_result, parameter, key, allow_zero=False):
+    """
+    Validate an integer.
+    :param action_result: Action result or BaseConnector object
+    :param parameter: input parameter
+    :param key: input parameter message key
+    :allow_zero: whether zero should be considered as valid value or not
+    :return: status phantom.APP_ERROR/phantom.APP_SUCCESS, integer value of the parameter or None in case of failure
+    """
+    if parameter is not None:
+        try:
+            if not float(parameter).is_integer():
+                return action_result.set_status(phantom.APP_ERROR, SPLUNK_ATTACK_ANALYZER_VALIDATE_INTEGER_MESSAGE.format(key)), None
+
+            parameter = int(parameter)
+        except Exception:
+            return action_result.set_status(phantom.APP_ERROR, SPLUNK_ATTACK_ANALYZER_VALIDATE_INTEGER_MESSAGE.format(key)), None
+
+        if parameter < 0:
+            return action_result.set_status(phantom.APP_ERROR, SPLUNK_ATTACK_ANALYZER_VALIDATE_INTEGER_MESSAGE.format(key)), None
+        if not allow_zero and parameter == 0:
+            return action_result.set_status(phantom.APP_ERROR, SPLUNK_ATTACK_ANALYZER_VALIDATE_INTEGER_MESSAGE.format(key)), None
+
+    return phantom.APP_SUCCESS, parameter
+
+
+class SplunkAttackAnalyzerConnector(BaseConnector):
     def __init__(self):
 
         # Call the BaseConnectors init first
-        super(TwinWaveConnector, self).__init__()
+        super(SplunkAttackAnalyzerConnector, self).__init__()
         self._state = None
         self._base_url = None
 
@@ -62,16 +88,19 @@ class TwinWaveConnector(BaseConnector):
 
         # Get the asset config from Phantom
         config = self.get_config()
+        ret_val, config["since"] = _validate_integer(self, config.get("since"), "since")
+        if phantom.is_fail(ret_val):
+            return self.get_status()
 
         # Use the config to initialize fortisiem object to handle connections to the fortisiem server
-        self._twinwave = Twinwave(config)
+        self._splunkattackanalyzer = SplunkAttackAnalyzer(config)
 
         return phantom.APP_SUCCESS
 
     def _add_to_vault(self, data, filename):
         # this temp directory uses "V" since this function is from the CLASS instance not the same as the "v" vault instance
         container_id = self.get_container_id()
-        Vault.create_attachment(data, container_id, file_name=filename)
+        return Vault.create_attachment(data, container_id, file_name=filename)
 
     def _handle_test_connectivity(self, param):
 
@@ -83,20 +112,20 @@ class TwinWaveConnector(BaseConnector):
         self.save_progress("Connecting to endpoint")
 
         try:
-            self._twinwave.get_engines()
+            self._splunkattackanalyzer.get_engines()
 
         except Exception as e:
             # the call to the 3rd party device or service failed
             # action result should contain all the error details so just return from here
             self.save_progress(str(e))
-            self.save_progress("Test Connectivity Failed.")
-            return action_result.get_status()
+            self.save_progress("Test Connectivity Failed")
+            return action_result.set_status(phantom.APP_ERROR)
 
         # Return success
-        self.save_progress("Test Connectivity Passed.")
+        self.save_progress("Test Connectivity Passed")
         return action_result.set_status(phantom.APP_SUCCESS)
 
-    def _handle_twinwave_get_job_normalized_forensics(self, params):
+    def _handle_splunk_attack_analyzer_get_job_normalized_forensics(self, params):
 
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
@@ -104,26 +133,27 @@ class TwinWaveConnector(BaseConnector):
 
         self.save_progress("Connecting to endpoint")
 
-        should_wait = params.get("wait")
-        timeout_in_minutes = params.get("timeout")
-        job_id = params.get("job_id")
+        should_wait = params.get("wait", True)
+        ret_val, timeout_in_minutes = _validate_integer(action_result, params.get("timeout", 30), "timeout")
+        if phantom.is_fail(ret_val):
+            return action_result.get_status()
+
+        job_id = params["job_id"]
 
         try:
             if should_wait:
                 self._get_job_data(job_id, should_wait, timeout_in_minutes)
 
-            job_fore = self._twinwave.get_job_normalized_forensics(job_id)
+            job_fore = self._splunkattackanalyzer.get_job_normalized_forensics(job_id)
 
         except Exception as e:
             self.save_progress(str(e))
-            self.save_progress("Unable to retrieve forensics")
-            return action_result.get_status()
+            return action_result.set_status(phantom.APP_ERROR, "Unable to retrieve forensics")
 
         action_result.add_data(job_fore)
-        self.save_progress("Job Normal Forensics Retrieved")
-        return action_result.set_status(phantom.APP_SUCCESS)
+        return action_result.set_status(phantom.APP_SUCCESS, "Job normal forensics retrieved")
 
-    def _handle_twinwave_submit_file(self, params):
+    def _handle_splunk_attack_analyzer_submit_file(self, params):
 
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
@@ -140,19 +170,17 @@ class TwinWaveConnector(BaseConnector):
             file_name = info[0]["name"]
             f = open(file_path, "rb")
             file_data = f.read()
-            submit_data = self._twinwave.submit_file(file_name, file_data)
+            submit_data = self._splunkattackanalyzer.submit_file(file_name, file_data)
         except Exception as err:
             self.save_progress(str(err))
-            self.save_progress("Unable to submit file")
-            return action_result.set_status(phantom.APP_ERROR)
+            return action_result.set_status(phantom.APP_ERROR, "Unable to submit file")
 
         submit_data["AppURL"] = "https://app.twinwave.io/job/{}".format(submit_data.get("JobID"))
         action_result.add_data(submit_data)
         self.debug_print("results", dump_object=submit_data)
-        self.save_progress("Submitted File")
-        return action_result.set_status(phantom.APP_SUCCESS)
+        return action_result.set_status(phantom.APP_SUCCESS, "Submitted file")
 
-    def _handle_twinwave_submit_url(self, params):
+    def _handle_splunk_attack_analyzer_submit_url(self, params):
 
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
@@ -164,17 +192,15 @@ class TwinWaveConnector(BaseConnector):
 
         try:
             url = params.get("url")
-            submit_data = self._twinwave.submit_url(url)
+            submit_data = self._splunkattackanalyzer.submit_url(url)
         except Exception as e:
             self.save_progress(str(e))
-            self.save_progress("Unable to submit url")
-            return action_result.set_status(phantom.APP_ERROR)
+            return action_result.set_status(phantom.APP_ERROR, "Unable to submit url")
 
         submit_data["AppURL"] = "https://app.twinwave.io/job/{}".format(submit_data.get("JobID"))
         action_result.add_data(submit_data)
         self.debug_print("results", dump_object=submit_data)
-        self.save_progress("Submitted URL")
-        return action_result.set_status(phantom.APP_SUCCESS)
+        return action_result.set_status(phantom.APP_SUCCESS, "Submitted URL")
 
     def _handle_get_engines(self, params):
 
@@ -183,22 +209,25 @@ class TwinWaveConnector(BaseConnector):
         self.save_progress("Connecting to endpoint")
 
         try:
-            response = self._twinwave.get_engines()
+            response = self._splunkattackanalyzer.get_engines()
 
         except Exception as e:
             self.save_progress(str(e))
-            self.save_progress("Unable to get engines")
-            return action_result.get_status()
+            return action_result.set_status(phantom.APP_ERROR, "Unable to get engines")
 
         action_result.add_data(response)
         self.save_progress("Submitted URL")
         return action_result.set_status(phantom.APP_SUCCESS)
 
-    def _handle_twinwave_list_recent_jobs(self, params):
+    def _handle_splunk_attack_analyzer_list_recent_jobs(self, params):
 
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
         action_result = self.add_action_result(ActionResult(dict(params)))
+
+        ret_val, limit = _validate_integer(action_result, params.get("limit"), "limit")
+        if phantom.is_fail(ret_val):
+            return action_result.get_status()
 
         self.save_progress("Connecting to endpoint")
         # save_state load_state to get last run job date to reference
@@ -207,15 +236,15 @@ class TwinWaveConnector(BaseConnector):
         # parameter count uses start at 100 if applicable if not start at 0
         # paremter pull for "DONE" jobs
         try:
-            list = self._twinwave.get_recent_jobs(params)
+            list = self._splunkattackanalyzer.get_recent_jobs(num_jobs=limit)
 
+            action_result.append_to_message("Gathered recent jobs")
+            action_result.update_summary({"job_count": len(list)})
         except Exception as e:
             self.save_progress(str(e))
-            self.save_progress("Unable to get jobs")
-            return action_result.get_status()
+            return action_result.set_status(phantom.APP_ERROR, "Unable to get jobs")
 
         action_result.add_data(list)
-        self.save_progress("Gathered Recent Jobs")
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_on_poll(self, params):
@@ -226,11 +255,10 @@ class TwinWaveConnector(BaseConnector):
         state_dict = self.load_state()
         next_token = state_dict.get("token", None)
         try:
-            payload = self._twinwave.poll_for_done_jobs(next_token)
+            payload = self._splunkattackanalyzer.poll_for_done_jobs(next_token)
         except Exception as e:
             self.save_progress(str(e))
-            self.save_progress("Unable to get jobs")
-            return action_result.get_status()
+            return action_result.set_status(phantom.APP_ERROR, "Unable to get jobs")
         jobs = payload.get("Jobs")
         if jobs:
             for job in jobs:
@@ -292,7 +320,7 @@ class TwinWaveConnector(BaseConnector):
         start_time = time.time()
         while True:
             try:
-                job_summary = self._twinwave.get_job(job_id)
+                job_summary = self._splunkattackanalyzer.get_job(job_id)
 
                 if job_summary.get("State") not in ("done", "error") and should_wait:
                     self.debug_print("Job is in state '{}', waiting and retrying..".format(job_summary.get("State")))
@@ -309,7 +337,7 @@ class TwinWaveConnector(BaseConnector):
                 self.save_progress("Unable to get job")
                 return None
 
-    def _handle_twinwave_get_job_summary(self, params):
+    def _handle_splunk_attack_analyzer_get_job_summary(self, params):
 
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
@@ -317,9 +345,11 @@ class TwinWaveConnector(BaseConnector):
 
         self.save_progress("Connecting to endpoint")
 
-        should_wait = params.get("wait")
-        timeout_in_minutes = params.get("timeout")
-        job_id = params.get("job_id")
+        should_wait = params.get("wait", True)
+        ret_val, timeout_in_minutes = _validate_integer(action_result, params.get("timeout", 30), "timeout")
+        if phantom.is_fail(ret_val):
+            return action_result.get_status()
+        job_id = params["job_id"]
 
         self.debug_print(
             "Getting summary for job ID: {}, wait: {}, timeout: {}".format(params.get("job_id"), params.get("wait"), params.get("timeout"))
@@ -327,18 +357,18 @@ class TwinWaveConnector(BaseConnector):
 
         job_summary = self._get_job_data(job_id, should_wait, timeout_in_minutes)
         if not job_summary:
-            return action_result.set_status(phantom.APP_ERROR)
+            return action_result.set_status(phantom.APP_ERROR, "Job not found")
 
         job_summary["ResourceTree"] = _make_resource_tree(job_summary["Resources"])
 
         action_result.add_data(job_summary)
-        action_result.update_summary({"JobID": job_id, "Score": job_summary.get("DisplayScore"), "Verdict": job_summary.get("Verdict")})
+        action_result.update_summary({"JobID": job_id, "Score": job_summary.get("DisplayScore")})
 
         self.save_progress("Job Summary Retrieved")
 
         return action_result.set_status(phantom.APP_SUCCESS)
 
-    def _handle_twinwave_get_job_pdf(self, params):
+    def _handle_splunk_attack_analyzer_get_job_pdf(self, params):
 
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
@@ -346,28 +376,33 @@ class TwinWaveConnector(BaseConnector):
 
         self.save_progress("Connecting to endpoint")
 
-        should_wait = params.get("wait")
-        timeout_in_minutes = params.get("timeout")
+        should_wait = params.get("wait", True)
+        ret_val, timeout_in_minutes = _validate_integer(action_result, params.get("timeout", 30), "timeout")
+        if phantom.is_fail(ret_val):
+            return action_result.get_status()
+
         job_id = params.get("job_id")
 
         if should_wait:
             # do this just to make sure the job is completed
             job_summary = self._get_job_data(job_id, should_wait, timeout_in_minutes)
             if not job_summary:
-                return action_result.set_status(phantom.APP_ERROR)
+                return action_result.set_status(phantom.APP_ERROR, "Job not found")
 
         try:
-            pdf_data = self._twinwave.download_job_pdf(job_id)
+            pdf_data = self._splunkattackanalyzer.download_job_pdf(job_id)
 
-            self._add_to_vault(data=pdf_data, filename=f"TwinWave job report {job_id}.pdf")
+            vault_detail = self._add_to_vault(data=pdf_data, filename=f"Splunk Attack Analyzer job report {job_id}.pdf")
+            vault_detail["file_name"] = f"Splunk Attack Analyzer job report {job_id}.pdf"
+            action_result.add_data(vault_detail)
+            action_result.append_to_message("Attached PDF report")
         except Exception as e:
             self.save_progress(str(e))
-            self.save_progress("Unable to get PDF report")
-            return action_result.set_status(phantom.APP_ERROR)
+            return action_result.set_status(phantom.APP_ERROR, "Unable to get PDF report")
 
-        return action_result.set_status(phantom.APP_SUCCESS)
+        return action_result.set_status(phantom.APP_SUCCESS, "Successfully attached PDF report")
 
-    def _handle_twinwave_get_job_screenshots(self, params):
+    def _handle_splunk_attack_analyzer_get_job_screenshots(self, params):
 
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
@@ -375,34 +410,36 @@ class TwinWaveConnector(BaseConnector):
 
         self.save_progress("Connecting to endpoint")
 
-        should_wait = params.get("wait")
-        timeout_in_minutes = params.get("timeout")
+        should_wait = params.get("wait", True)
+        ret_val, timeout_in_minutes = _validate_integer(action_result, params.get("timeout", 30), "timeout")
+        if phantom.is_fail(ret_val):
+            return action_result.get_status()
         job_id = params.get("job_id")
 
         if should_wait:
             # do this just to make sure the job is completed
             job_summary = self._get_job_data(job_id, should_wait, timeout_in_minutes)
             if not job_summary:
-                return action_result.set_status(phantom.APP_ERROR)
+                return action_result.set_status(phantom.APP_ERROR, "Job not found")
 
         try:
-            forensics = self._twinwave.get_job_normalized_forensics(job_id)
+            forensics = self._splunkattackanalyzer.get_job_normalized_forensics(job_id)
 
             for i, ss in enumerate(forensics.get("Screenshots", [])):
                 self.save_progress(f"Downloading screenshot #{i}")
 
-                shot_data = self._twinwave.download_artifact(ss["ArtifactPath"])
-                self._add_to_vault(shot_data, f"TwinWave screenshot #{i}.png")
+                shot_data = self._splunkattackanalyzer.download_artifact(ss["ArtifactPath"])
+                vault_detail = self._add_to_vault(shot_data, f"Splunk Attack Analyzer screenshot {job_id} #{i}.png")
+                vault_detail["file_name"] = f"Splunk Attack Analyzer screenshot {job_id} #{i}.png"
+                action_result.add_data(vault_detail)
 
             screenshot_count = len(forensics.get("Screenshots", []))
 
             action_result.append_to_message(f"Attached {screenshot_count} screenshots")
-            action_result.update_summary({"screenshot count": screenshot_count})
-            action_result.add_data({"screenshot_count": screenshot_count})
+            action_result.update_summary({"screenshot_count": screenshot_count})
         except Exception as e:
             self.save_progress(str(e))
-            self.save_progress("Unable to download screenshots")
-            return action_result.set_status(phantom.APP_ERROR)
+            return action_result.set_status(phantom.APP_ERROR, "Unable to download screenshots")
 
         return action_result.set_status(phantom.APP_SUCCESS)
 
@@ -415,24 +452,22 @@ class TwinWaveConnector(BaseConnector):
 
         self.debug_print("action_id", self.get_action_identifier())
 
-        self.save_progress("action_id={}".format(action_id))
-
         if action_id == "test_connectivity":
             ret_val = self._handle_test_connectivity(param)
-        elif action_id == "twinwave_get_job_normalized_forensics":
-            ret_val = self._handle_twinwave_get_job_normalized_forensics(param)
-        elif action_id == "twinwave_get_job_summary":
-            ret_val = self._handle_twinwave_get_job_summary(param)
-        elif action_id == "twinwave_list_recent_jobs":
-            ret_val = self._handle_twinwave_list_recent_jobs(param)
-        elif action_id == "twinwave_submit_file":
-            ret_val = self._handle_twinwave_submit_file(param)
-        elif action_id == "twinwave_submit_url":
-            ret_val = self._handle_twinwave_submit_url(param)
-        elif action_id == "twinwave_get_job_pdf":
-            ret_val = self._handle_twinwave_get_job_pdf(param)
-        elif action_id == "twinwave_get_job_screenshots":
-            ret_val = self._handle_twinwave_get_job_screenshots(param)
+        elif action_id == "splunk_attack_analyzer_get_job_normalized_forensics":
+            ret_val = self._handle_splunk_attack_analyzer_get_job_normalized_forensics(param)
+        elif action_id == "splunk_attack_analyzer_get_job_summary":
+            ret_val = self._handle_splunk_attack_analyzer_get_job_summary(param)
+        elif action_id == "splunk_attack_analyzer_list_recent_jobs":
+            ret_val = self._handle_splunk_attack_analyzer_list_recent_jobs(param)
+        elif action_id == "splunk_attack_analyzer_submit_file":
+            ret_val = self._handle_splunk_attack_analyzer_submit_file(param)
+        elif action_id == "splunk_attack_analyzer_submit_url":
+            ret_val = self._handle_splunk_attack_analyzer_submit_url(param)
+        elif action_id == "splunk_attack_analyzer_get_job_pdf":
+            ret_val = self._handle_splunk_attack_analyzer_get_job_pdf(param)
+        elif action_id == "splunk_attack_analyzer_get_job_screenshots":
+            ret_val = self._handle_splunk_attack_analyzer_get_job_screenshots(param)
         elif action_id == "on_poll":
             ret_val = self._handle_on_poll(param)
         return ret_val
